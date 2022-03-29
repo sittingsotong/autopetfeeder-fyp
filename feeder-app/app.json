@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "feeder-app",
+    "slug": "feeder-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyD93rmvPfE_7DJ7hVxBd0qF5Gxm2SNQn8M",
+          "authDomain": "petfeeder-fyp.firebaseapp.com",
+          "projectId": "petfeeder-fyp",
+          "storageBucket": "petfeeder-fyp.appspot.com",
+          "messagingSenderId": "532079785621",
+          "appId": "1:532079785621:web:bbd5a3f5a914a8324f4d9c",
+          "measurementId": "G-DXHC9KP67X"
+        }
+      }
+    }
+  }
+}
