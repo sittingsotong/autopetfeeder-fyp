@@ -1,8 +1,15 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import rootReducer from "./src/redux/reducers";
+import AuthScreen from "./src/screens/auth";
+
 import Constants from "expo-constants";
-import firebase from "firebase/app";
+import firebase from "firebase/compat/app";
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 // only initialise if no apps have already been allocated to the project
 if (firebase.apps.length == 0) {
@@ -11,10 +18,9 @@ if (firebase.apps.length == 0) {
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <AuthScreen />
+    </Provider>
   );
 }
 
