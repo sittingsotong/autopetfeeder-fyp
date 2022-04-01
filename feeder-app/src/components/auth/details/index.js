@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
+
+import { login, register } from "../../../redux/actions";
 
 import { AntDesign } from "@expo/vector-icons";
 import styles from "./styles";
@@ -9,14 +12,35 @@ export default function AuthDetails({ isLogin, setIsLogin, setDetailsPage }) {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    dispatch(login(email, password))
+      .then(() => {
+        console.log("login successful");
+      })
+      .catch(() => {
+        console.log("login unsuccessful");
+      });
+  };
+
+  const handleRegister = () => {
+    // dispatch
+    dispatch(register(email, password))
+      .then(() => {
+        console.log("register successful");
+      })
+      .catch(() => {
+        console.log("register unsuccessful");
+      });
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => setDetailsPage(false)}>
         <AntDesign name="left" size={24} color="black" />
       </TouchableOpacity>
-      <Text style={styles.headerText}>
-        {isLogin ? "Log In Now" : "Sign Up Now"}
-      </Text>
+      <Text style={styles.headerText}>{isLogin ? "Log In" : "Sign Up"}</Text>
       <Text style={styles.subText}>
         {isLogin
           ? "Please login to continue using our app."
@@ -39,10 +63,17 @@ export default function AuthDetails({ isLogin, setIsLogin, setDetailsPage }) {
       <TextInput
         onChangeText={(text) => setPassword(text)}
         style={styles.textInput}
+        secureTextEntry
         placeholder="Password"
       />
+      {/* TODO: add re-enter password */}
 
-      <TouchableOpacity style={styles.submitButton}>
+      <TouchableOpacity
+        style={styles.submitButton}
+        onPress={() => {
+          isLogin ? handleLogin() : handleRegister();
+        }}
+      >
         <Text style={styles.buttonText}>{isLogin ? "Sign In" : "Sign Up"}</Text>
       </TouchableOpacity>
 

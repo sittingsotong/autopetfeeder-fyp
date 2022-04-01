@@ -22,7 +22,12 @@ export default function AuthMenu({ isLogin, setIsLogin, setDetailsPage }) {
       <View style={styles.containerBottom}>
         <Text>
           <Text style={styles.subText}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => setDetailsPage(true)}>
+          <TouchableOpacity
+            onPress={() => {
+              setDetailsPage(true);
+              setIsLogin(true);
+            }}
+          >
             <Text style={styles.bottomButtonText}>Sign in</Text>
           </TouchableOpacity>
         </Text>

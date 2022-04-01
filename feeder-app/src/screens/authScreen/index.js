@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import AuthDetails from "../../components/auth/details";
 import AuthMenu from "../../components/auth/menu";
 
