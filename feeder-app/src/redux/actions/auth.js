@@ -37,7 +37,7 @@ export const getCurrentUserData = () => (dispatch) => {
 };
 
 /// dispatches a promise to connect to backend
-export const login = (email, password) => (dispatch) =>
+export const login = (email, password) => () =>
   new Promise((resolve, reject) => {
     firebase
       .auth()
@@ -50,12 +50,21 @@ export const login = (email, password) => (dispatch) =>
       });
   });
 
-export const register = (email, password) => (dispatch) =>
+export const register = (fullName, email, password) => () =>
   new Promise((resolve, reject) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((res) => {
+        const uid = res.user.uid;
+        const data = {
+          id: uid,
+          email,
+          fullName,
+        };
+        const usersRef = firebase.firestore().collection("user");
+
+        usersRef.doc(uid).set(data);
         resolve();
       })
       .catch(() => {

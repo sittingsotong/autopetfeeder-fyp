@@ -10,10 +10,12 @@ import styles from "./styles";
 export default function AuthDetails({ isLogin, setIsLogin, setDetailsPage }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
 
   const dispatch = useDispatch();
 
+  // TODO: clear form fields on fail
   const handleLogin = () => {
     dispatch(login(email, password))
       .then(() => {
@@ -25,8 +27,14 @@ export default function AuthDetails({ isLogin, setIsLogin, setDetailsPage }) {
   };
 
   const handleRegister = () => {
-    // dispatch
-    dispatch(register(email, password))
+    if (password !== confirmPassword) {
+      alert("passwords don't match");
+      // TODO: make alert look better
+      return;
+    }
+
+    // dispatch data to firebase for registration
+    dispatch(register(name, email, password))
       .then(() => {
         console.log("register successful");
       })
@@ -66,7 +74,12 @@ export default function AuthDetails({ isLogin, setIsLogin, setDetailsPage }) {
         secureTextEntry
         placeholder="Password"
       />
-      {/* TODO: add re-enter password */}
+      <TextInput
+        onChangeText={(text) => setConfirmPassword(text)}
+        style={styles.textInput}
+        secureTextEntry
+        placeholder="Confirm Password"
+      />
 
       <TouchableOpacity
         style={styles.submitButton}
