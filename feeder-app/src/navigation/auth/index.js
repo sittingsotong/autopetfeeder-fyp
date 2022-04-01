@@ -1,48 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { userAuthStateListener } from "../../redux/actions/auth";
+import LoginScreen from "../../screens/loginScreen";
+import RegisterScreen from "../../screens/registerScreen";
+import WelcomeScreen from "../../screens/welcomeScreen";
 
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import AuthScreen from "../../screens/authScreen";
-import MainScreen from "../main";
-
-// keeps stack of all routes we want to go
-const Stack = createStackNavigator();
-
-export default function Route() {
-  // lets us access values in reductor, and updates value of state whenever update occurs
-  const currentUserObj = useSelector((state) => state.auth);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(userAuthStateListener());
-  }, []);
-  console.log(currentUserObj);
-
-  if (!currentUserObj.loaded) {
-    return <View />;
-  }
+export default function AuthRoute() {
+  const [isLogin, setIsLogin] = useState(true);
+  const [detailsPage, setDetailsPage] = useState(false);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {currentUserObj.currentUser == null ? (
-          <Stack.Screen
-            name="Auth"
-            component={AuthScreen}
-            options={{ headerShown: false }}
+    <View>
+      {detailsPage ? (
+        isLogin ? (
+          <LoginScreen
+            setIsLogin={setIsLogin}
+            setDetailsPage={setDetailsPage}
           />
         ) : (
-          <Stack.Screen
-            name="Main"
-            component={MainScreen}
-            options={{ headerShown: false }}
+          <RegisterScreen
+            setIsLogin={setIsLogin}
+            setDetailsPage={setDetailsPage}
           />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+        )
+      ) : (
+        <WelcomeScreen
+          setIsLogin={setIsLogin}
+          setDetailsPage={setDetailsPage}
+        />
+      )}
+    </View>
   );
 }

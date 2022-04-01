@@ -1,22 +1,17 @@
 import { StyleSheet } from "react-native";
-import Colors from "../../../colors";
+import Colors from "../../colors";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   containerMain: {
-    flex: 1,
+    height: "90%",
     padding: 20,
   },
   headerText: {
     fontWeight: "bold",
-    fontSize: 25,
-    padding: 40,
+    fontSize: 30,
+    padding: 50,
     color: "darkslategray",
     textAlign: "center",
-    textAlignVertical: "center",
-    justifyContent: "center",
   },
   providerButton: {
     backgroundColor: Colors.primaryColor,
@@ -30,9 +25,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   containerBottom: {
+    alignItems: "center",
+  },
+  containerBottomText: {
     padding: 10,
     alignItems: "center",
-    paddingBottom: 40,
   },
   bottomButtonText: {
     color: Colors.primaryColor,

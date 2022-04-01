@@ -13,7 +13,7 @@ const EmptyScreen = () => {
   return <View />;
 };
 
-export default function MainScreen() {
+export default function MainRoute() {
   return (
     <Tab.Navigator
       barStyle={{ backgroundColor: Colors.primaryColor }}

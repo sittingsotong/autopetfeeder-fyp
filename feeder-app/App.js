@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 
 import rootReducer from "./src/redux/reducers";
-import Route from "./src/navigation/auth";
+import Route from "./src/navigation/route";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
