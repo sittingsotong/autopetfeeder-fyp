@@ -5,6 +5,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import Colors from "../../colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import HomeScreen from "../../screens/homeScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -28,7 +29,7 @@ export default function MainRoute() {
       />
       <Tab.Screen
         name="Home"
-        component={EmptyScreen}
+        component={HomeScreen}
         options={{
           tabBarIcon: () => (
             <MaterialIcons name="pets" size={20} color="black" />
