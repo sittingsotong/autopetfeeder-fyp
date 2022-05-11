@@ -36,23 +36,27 @@ export default function RegisterForm() {
         onChangeText={(text) => setName(text)}
         style={styles.textInput}
         placeholder="Full Name"
+        placeholderTextColor="darkgray"
       />
       <TextInput
         onChangeText={(text) => setEmail(text)}
         style={styles.textInput}
         placeholder="Email"
+        placeholderTextColor="darkgray"
       />
       <TextInput
         onChangeText={(text) => setPassword(text)}
         style={styles.textInput}
         secureTextEntry
         placeholder="Password"
+        placeholderTextColor="darkgray"
       />
       <TextInput
         onChangeText={(text) => setConfirmPassword(text)}
         style={styles.textInput}
         secureTextEntry
         placeholder="Confirm Password"
+        placeholderTextColor="darkgray"
       />
 
       <TouchableOpacity

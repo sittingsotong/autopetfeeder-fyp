@@ -29,7 +29,7 @@ export const getCurrentUserData = () => (dispatch) => {
       if (res.exists) {
         return dispatch({
           type: USER_STATE_CHANGE,
-          currentUser: res.data,
+          currentUser: res.get("userData"),
           loaded: true,
         });
       }
@@ -58,13 +58,13 @@ export const register = (fullName, email, password) => () =>
       .then((res) => {
         const uid = res.user.uid;
         const data = {
-          id: uid,
+          uid: uid,
           email,
           fullName,
         };
         const usersRef = firebase.firestore().collection("user");
 
-        usersRef.doc(uid).set(data);
+        usersRef.doc(uid).set({ userData: data }, { merge: true });
         resolve();
       })
       .catch(() => {

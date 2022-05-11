@@ -6,6 +6,10 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
   },
+  titleStyle: {
+    fontWeight: "bold",
+    fontSize: 30,
+  },
 });
 
 export default styles;

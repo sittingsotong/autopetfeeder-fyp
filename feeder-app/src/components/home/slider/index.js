@@ -5,20 +5,18 @@ import Slider from "@react-native-community/slider";
 import styles from "./styles";
 import Colors from "../../../colors";
 
-export default function AmountSlider() {
-  const [portion, setPortion] = useState(0);
-
+export default function AmountSlider({ amount, setAmount }) {
   return (
     <View style={styles.containerMain}>
       <Slider
         style={{ width: 200, height: 40 }}
-        value={portion}
+        value={amount}
         step={10}
         minimumTrackTintColor={Colors.secondaryColor}
         maximumValue={100}
-        onValueChange={(value) => setPortion(value)}
+        onValueChange={(amount) => setAmount(amount)}
       />
-      <Text>Value: {portion}g</Text>
+      <Text>Value: {amount}g</Text>
     </View>
   );
 }

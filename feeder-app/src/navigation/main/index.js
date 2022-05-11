@@ -6,6 +6,7 @@ import Colors from "../../colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import HomeScreen from "../../screens/homeScreen";
+import GraphScreen from "../../screens/graphScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -13,6 +14,8 @@ const Tab = createMaterialBottomTabNavigator();
 const EmptyScreen = () => {
   return <View />;
 };
+
+// TODO: make icons change between white and black to indicate currently open screen
 
 export default function MainRoute() {
   return (
@@ -22,7 +25,7 @@ export default function MainRoute() {
     >
       <Tab.Screen
         name="Feed"
-        component={EmptyScreen}
+        component={GraphScreen}
         options={{
           tabBarIcon: () => <Feather name="video" size={20} color="black" />,
         }}

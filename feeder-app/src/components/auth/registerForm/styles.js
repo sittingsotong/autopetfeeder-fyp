@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 20, // margin is outside the component
     borderRadius: 30,
-    width: "90%",
+    width: "80%",
     alignSelf: "center",
   },
   submitButton: {

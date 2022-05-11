@@ -28,12 +28,14 @@ export default function LoginForm() {
         onChangeText={(text) => setEmail(text)}
         style={styles.textInput}
         placeholder="Email"
+        placeholderTextColor="darkgray"
       />
       <TextInput
         onChangeText={(text) => setPassword(text)}
         style={styles.textInput}
         secureTextEntry
         placeholder="Password"
+        placeholderTextColor="darkgray"
       />
 
       <TouchableOpacity

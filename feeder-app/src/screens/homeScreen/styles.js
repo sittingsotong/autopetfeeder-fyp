@@ -3,11 +3,11 @@ import Colors from "../../colors";
 
 const styles = StyleSheet.create({
   containerMain: {
-    flex: 1,
+    // flex: 1,
     padding: 20,
   },
-  containerBottom: {
-    marginTop: "100%",
+  containerTop: {
+    marginTop: 70,
     alignItems: "center",
   },
   providerButton: {
@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
     width: "120%",
     alignItems: "center",
     justifyContent: "center",
+  },
+  containerBottom: {
+    marginTop: 30,
+    alignItems: "center",
   },
 });
 
