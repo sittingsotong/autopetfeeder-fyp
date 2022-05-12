@@ -2,6 +2,13 @@
 # Created by https://www.toptal.com/developers/gitignore/api/reactnative,visualstudiocode,python,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=reactnative,visualstudiocode,python,macos
 
+### Venv ####
+venv
+
+
+### Firebase Key ###
+petfeeder-key.json
+
 ### macOS ###
 # General
 .DS_Store
