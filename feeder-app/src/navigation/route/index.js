@@ -20,7 +20,6 @@ export default function Route() {
     dispatch(userAuthStateListener());
   }, []);
 
-  console.log(currentUserObj);
   if (!currentUserObj.loaded) {
     return <View />;
   }

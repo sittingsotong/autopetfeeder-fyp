@@ -16,6 +16,7 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
 
   // TODO: clear form fields on fail
+  // TODO: confirm feed alert to prevent spamming
   const handleFeed = () => {
     dispatch(feed(portion, currentUserObj.currentUser.uid))
       .then(() => {
