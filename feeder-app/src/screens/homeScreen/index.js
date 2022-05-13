@@ -3,15 +3,31 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { feed } from "../../redux/actions/feed";
 
+import Modal from "react-native-modal";
+
 import AmountSlider from "../../components/home/slider";
-import AlarmList from "../../components/home/alarmList";
+import ScheduleList from "../../components/home/scheduleList";
 
 import styles from "./styles";
+import AddSchedule from "../../components/home/addSchedule";
+import Colors from "../../colors";
 
 export default function HomeScreen() {
   // get current logged in user object
   const currentUserObj = useSelector((state) => state.auth);
   const [portion, setPortion] = useState(0);
+
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [schedule, setSchedule] = useState([
+    {
+      time: "1:00PM",
+      portion: "40g",
+    },
+    {
+      time: "7:00PM",
+      portion: "70g",
+    },
+  ]);
 
   const dispatch = useDispatch();
 
@@ -27,21 +43,44 @@ export default function HomeScreen() {
       });
   };
 
+  // Display modal for choosing feeding schedule
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   return (
     <View style={styles.containerMain}>
       <View style={styles.containerTop}>
+        <AmountSlider amount={portion} setAmount={setPortion} />
         <TouchableOpacity
-          style={styles.providerButton}
+          style={styles.feedButton}
           onPress={() => {
             handleFeed();
           }}
         >
           <Text>Feed Now</Text>
         </TouchableOpacity>
-        <AmountSlider amount={portion} setAmount={setPortion} />
       </View>
+      <Modal
+        isVisible={isModalVisible}
+        backdropColor={Colors.secondaryColor}
+        coverScreen={true}
+        backdropOpacity={0.9}
+      >
+        <View style={styles.modalContainer}>
+          <AddSchedule toggleModal={toggleModal} />
+        </View>
+      </Modal>
       <View style={styles.containerBottom}>
-        <AlarmList />
+        <ScheduleList schedule={schedule} />
+        <TouchableOpacity
+          style={styles.scheduleButton}
+          onPress={() => {
+            toggleModal();
+          }}
+        >
+          <Text>+</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

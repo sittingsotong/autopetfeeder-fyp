@@ -4,8 +4,9 @@ import Colors from "../../../colors";
 const styles = StyleSheet.create({
   containerMain: {
     // flex: 1,
-    padding: 40,
-    width: "90%",
+    margin: 20,
+    padding: 20,
+    width: "85%",
   },
   providerButton: {
     backgroundColor: Colors.tertiaryColor,

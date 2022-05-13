@@ -7,9 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { Button, ListItem } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 import styles from "./styles";
-import { List } from "react-native-paper";
 
 /*
 
@@ -19,27 +18,14 @@ days it's repeating, time and portion
 TODO: make it such that touching the listitem will toggle 
 between these information
 
-TODO: better name for AlarmList?
-
 TODO: add new schedule function
 
 TODO: how to store the information, in the database?
 but how to keep local copy
 
- */
+*/
 
-const list = [
-  {
-    time: "1:00PM",
-    portion: "40g",
-  },
-  {
-    time: "7:00PM",
-    portion: "70g",
-  },
-];
-
-export default function AlarmList() {
+export default function ScheduleList({ schedule }) {
   let keyExtractor = (item, index) => index.toString();
 
   let renderItem = ({ item }) => (
@@ -58,7 +44,7 @@ export default function AlarmList() {
     <SafeAreaView style={styles.containerMain}>
       <FlatList
         keyExtractor={keyExtractor}
-        data={list}
+        data={schedule}
         renderItem={renderItem}
       />
     </SafeAreaView>

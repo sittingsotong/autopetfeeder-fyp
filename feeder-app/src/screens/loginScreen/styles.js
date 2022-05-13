@@ -3,7 +3,7 @@ import Colors from "../../colors";
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 40,
     padding: 20,
   },
   headerText: {
