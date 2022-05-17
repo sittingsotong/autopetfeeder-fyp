@@ -15,26 +15,19 @@ import Colors from "../../colors";
 export default function HomeScreen() {
   // get current logged in user object
   const currentUserObj = useSelector((state) => state.auth);
+  const currSchedule = useSelector((state) => state.schedule);
+
   const [portion, setPortion] = useState(0);
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [schedule, setSchedule] = useState([
-    {
-      time: "1:00PM",
-      portion: "40g",
-    },
-    {
-      time: "7:00PM",
-      portion: "70g",
-    },
-  ]);
+  const [schedule, setSchedule] = useState(currSchedule);
 
   const dispatch = useDispatch();
 
   // TODO: clear form fields on fail
   // TODO: confirm feed alert to prevent spamming
   const handleFeed = () => {
-    dispatch(feed(portion, currentUserObj.currentUser.uid))
+    dispatch(feed(currentUserObj.currentUser.uid, portion))
       .then(() => {
         console.log("feed successful");
       })

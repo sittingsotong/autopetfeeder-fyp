@@ -1,7 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 
-export const feed = (portion, userUid) => () =>
+export const feed = (userUid, portion) => () =>
   new Promise((resolve, reject) => {
     firebase
       .firestore()
