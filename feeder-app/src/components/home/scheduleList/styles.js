@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     margin: 20,
     padding: 20,
     width: "85%",
+    height: "73%",
   },
   providerButton: {
     backgroundColor: Colors.tertiaryColor,
@@ -15,6 +16,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: "30%",
     alignSelf: "center",
+  },
+  titleString: {
+    fontSize: 23,
   },
 });
 

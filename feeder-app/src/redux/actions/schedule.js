@@ -2,7 +2,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
-import { SCHEDULE_ADD, SCHEDULE_UPDATE } from "../constants";
+import { SCHEDULE_UPDATE } from "../constants";
 
 export const getCurrentSchedule = (userUid) => (dispatch) => {
   firebase
@@ -15,18 +15,20 @@ export const getCurrentSchedule = (userUid) => (dispatch) => {
           dispatch({
             type: SCHEDULE_UPDATE,
             schedule: res.get("schedule"),
+            loaded: true,
           });
         } else {
           dispatch({
             type: SCHEDULE_UPDATE,
             schedule: [],
+            loaded: true,
           });
         }
       }
     });
 };
 
-export const addSchedule = (userUid, schedule) => () =>
+export const updateSchedule = (userUid, schedule) => () =>
   new Promise((resolve, reject) => {
     firebase
       .firestore()

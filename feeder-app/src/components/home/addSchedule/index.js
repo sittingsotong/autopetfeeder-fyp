@@ -1,50 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { View, TouchableOpacity, Text, Button } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { View, TouchableOpacity, Text } from "react-native";
+import { useDispatch } from "react-redux";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { DayPicker } from "react-native-picker-weekday";
 import AmountSlider from "../slider";
 
+import { SCHEDULE_ADD } from "../../../redux/constants";
+
 import styles from "./styles";
 import Colors from "../../../colors";
-import { addSchedule } from "../../../redux/actions/schedule";
-import { SCHEDULE_ADD } from "../../../redux/constants";
-import { createIconSetFromFontello } from "react-native-vector-icons";
 
 export default function AddSchedule({ toggleModal }) {
-  const currentUserObj = useSelector((state) => state.auth);
-  const currSchedule = useSelector((state) => state.schedule);
-
   const [date, setDate] = useState(new Date());
   const [portion, setPortion] = useState(0);
   const [weekdays, setWeekdays] = useState([]);
   // 1 = SUN, 2 = MON, 3 = TUE ...
 
-  const [schedule, setSchedule] = useState(null);
-
   const dispatch = useDispatch();
-
-  // performs SCHEDULE_ADD action to update state
-  useEffect(() => {
-    if (schedule != null) {
-      dispatch({
-        type: SCHEDULE_ADD,
-        schedule: schedule,
-      });
-    }
-  }, [schedule]);
-
-  // on updated state, update firestore db
-  useEffect(() => {
-    dispatch(addSchedule(currentUserObj.currentUser.uid, currSchedule.schedule))
-      .then(() => {
-        console.log("add schedule successful");
-      })
-      .catch(() => {
-        console.log("add schedule unsuccessful");
-      });
-  }, [currSchedule]);
 
   return (
     <View style={styles.containerMain}>
@@ -61,13 +34,18 @@ export default function AddSchedule({ toggleModal }) {
         <TouchableOpacity
           style={styles.exitButton}
           onPress={() => {
-            setSchedule({
-              time: date,
-              portion: portion,
-              days: weekdays,
-            });
-
             toggleModal();
+
+            // sends SCHEDULE_ADD message to add schedule to state
+            dispatch({
+              type: SCHEDULE_ADD,
+              schedule: {
+                hour: date.getHours(),
+                minute: date.getMinutes(),
+                portion: portion,
+                days: weekdays,
+              },
+            });
           }}
         >
           <Text>Save</Text>
@@ -76,6 +54,7 @@ export default function AddSchedule({ toggleModal }) {
       <DateTimePicker
         testID="dateTimePicker"
         value={date}
+        // TODO: fix bug where not changing the value doesnt update time to intervals of 5min
         display="spinner"
         mode="time"
         themeVariant="light"

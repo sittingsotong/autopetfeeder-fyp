@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   containerTop: {
-    // marginTop: 50,
+    marginTop: 10,
     alignItems: "center",
   },
   feedButton: {
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   containerBottom: {
-    marginTop: 30,
+    marginTop: 10,
     alignItems: "center",
   },
   scheduleButton: {

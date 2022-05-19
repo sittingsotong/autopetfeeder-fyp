@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+
 import { useDispatch, useSelector } from "react-redux";
 import { feed } from "../../redux/actions/feed";
+import { updateSchedule } from "../../redux/actions/schedule";
 
 import Modal from "react-native-modal";
-
 import AmountSlider from "../../components/home/slider";
 import ScheduleList from "../../components/home/scheduleList";
+import AddSchedule from "../../components/home/addSchedule";
 
 import styles from "./styles";
-import AddSchedule from "../../components/home/addSchedule";
 import Colors from "../../colors";
 
 export default function HomeScreen() {
@@ -20,9 +21,23 @@ export default function HomeScreen() {
   const [portion, setPortion] = useState(0);
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [schedule, setSchedule] = useState(currSchedule);
 
   const dispatch = useDispatch();
+
+  // on every update of schedule, update firestore db
+  useEffect(() => {
+    if (currSchedule.loaded == true) {
+      dispatch(
+        updateSchedule(currentUserObj.currentUser.uid, currSchedule.schedule)
+      )
+        .then(() => {
+          console.log("update schedule successful");
+        })
+        .catch(() => {
+          console.log("update schedule unsuccessful");
+        });
+    }
+  }, [currSchedule.count]);
 
   // TODO: clear form fields on fail
   // TODO: confirm feed alert to prevent spamming
@@ -58,14 +73,14 @@ export default function HomeScreen() {
         isVisible={isModalVisible}
         backdropColor={Colors.secondaryColor}
         coverScreen={true}
-        backdropOpacity={0.9}
+        backdropOpacity={0.95}
       >
         <View style={styles.modalContainer}>
           <AddSchedule toggleModal={toggleModal} />
         </View>
       </Modal>
       <View style={styles.containerBottom}>
-        <ScheduleList schedule={schedule} />
+        <ScheduleList schedule={currSchedule.schedule} />
         <TouchableOpacity
           style={styles.scheduleButton}
           onPress={() => {

@@ -1,40 +1,69 @@
 import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
-
+import { Text, FlatList, SafeAreaView, TouchableOpacity } from "react-native";
 import { ListItem } from "react-native-elements";
+
+import { useDispatch } from "react-redux";
+import { SCHEDULE_DELETE } from "../../../redux/constants";
+
 import styles from "./styles";
-
-/*
-
-TODO: decide what information to show between 
-days it's repeating, time and portion
-
-TODO: make it such that touching the listitem will toggle 
-between these information
-
-TODO: add new schedule function
-
-TODO: how to store the information, in the database?
-but how to keep local copy
-
-*/
 
 export default function ScheduleList({ schedule }) {
   let keyExtractor = (item, index) => index.toString();
 
-  let renderItem = ({ item }) => (
+  // Backend handling functions
+  const dispatch = useDispatch();
+
+  const handleDelete = (index) => {
+    dispatch({
+      type: SCHEDULE_DELETE,
+      index: index,
+    });
+  };
+
+  // Helper functions for rendering time and days of repeat
+  const renderTime = (hour, minute) => {
+    // time is an object
+    const today = new Date();
+    const date = new Date(today.setHours(hour, minute));
+
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
+  const renderDays = (days) => {
+    const daysMap = {
+      1: "SUN",
+      2: "MON",
+      3: "TUE",
+      4: "WED",
+      5: "THU",
+      6: "FRI",
+      7: "SAT",
+    };
+
+    let text = "";
+    days = days.sort();
+    for (let i = 0; i < days.length; i++) {
+      text += daysMap[days[i]] + " ";
+    }
+
+    return text;
+  };
+
+  let renderItem = ({ item, index }) => (
     <ListItem>
       <ListItem.Content>
-        <ListItem.Title>{item.time}</ListItem.Title>
-        <ListItem.Subtitle>{item.portion}</ListItem.Subtitle>
+        <ListItem.Title style={styles.titleString}>
+          {renderTime(item.hour, item.minute)}
+        </ListItem.Title>
+        <ListItem.Subtitle>{renderDays(item.days)}</ListItem.Subtitle>
+        <ListItem.Subtitle>{item.portion}g</ListItem.Subtitle>
       </ListItem.Content>
-      <TouchableOpacity style={styles.providerButton}>
+      <TouchableOpacity
+        style={styles.providerButton}
+        onPress={() => {
+          handleDelete(index);
+        }}
+      >
         <Text>Remove</Text>
       </TouchableOpacity>
     </ListItem>
