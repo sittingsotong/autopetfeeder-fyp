@@ -48,16 +48,21 @@ def on_feed(doc_snapshot, changes, read_time):
 # Watch the document
 doc_watch = doc_ref.on_snapshot(on_feed)
 
+# initialise motor object
+motor = Motor()
+
 # main loop
 while True:
-    # initialise motor object
-    motor = Motor()
+    try:
+        while not feed_amt.empty():
+            portion = feed_amt.get()
 
-    while not feed_amt.empty():
-        portion = feed_amt.get()
+            # Set value back to 0 for next feed
+            doc_ref.update({"feedNow": 0})
 
-        # Set value back to 0 for next feed
-        doc_ref.update({"feedNow": 0})
+            # Call motor API to run motor
+            motor.rotate(portion)
 
-        # Call motor API to run motor
-        motor.rotate(portion)
+    except KeyboardInterrupt:
+        motor.cleanup()
+        exit(1)
