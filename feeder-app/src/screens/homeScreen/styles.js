@@ -3,30 +3,33 @@ import Colors from "../../colors";
 
 const styles = StyleSheet.create({
   containerMain: {
-    // flex: 1,
-    padding: 20,
+    marginTop: 50,
   },
   containerTop: {
-    marginTop: 70,
+    marginTop: 10,
     alignItems: "center",
   },
-  providerButton: {
-    backgroundColor: Colors.primaryColor,
+  feedButton: {
+    backgroundColor: Colors.highlightColor,
     padding: 10,
     alignItems: "center",
     borderRadius: 50,
-    width: "50%",
+    width: "30%",
     alignSelf: "center",
   },
-  sliderMain: {
-    padding: 20,
-    width: "120%",
+  modalContainer: {
+    margin: 20,
     alignItems: "center",
-    justifyContent: "center",
   },
   containerBottom: {
-    marginTop: 30,
+    marginTop: 10,
     alignItems: "center",
+  },
+  scheduleButton: {
+    margin: 10,
+    backgroundColor: Colors.highlightColor,
+    padding: 15,
+    borderRadius: 50,
   },
 });
 

@@ -1,23 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+
 import { useDispatch, useSelector } from "react-redux";
 import { feed } from "../../redux/actions/feed";
+import { updateSchedule } from "../../redux/actions/schedule";
 
+import Modal from "react-native-modal";
 import AmountSlider from "../../components/home/slider";
-import AlarmList from "../../components/home/alarmList";
+import ScheduleList from "../../components/home/scheduleList";
+import AddSchedule from "../../components/home/addSchedule";
 
 import styles from "./styles";
+import Colors from "../../colors";
 
 export default function HomeScreen() {
   // get current logged in user object
   const currentUserObj = useSelector((state) => state.auth);
+  const currSchedule = useSelector((state) => state.schedule);
+
   const [portion, setPortion] = useState(0);
+
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
 
+  // on every update of schedule, update firestore db
+  useEffect(() => {
+    if (currSchedule.loaded == true) {
+      dispatch(
+        updateSchedule(currentUserObj.currentUser.uid, currSchedule.schedule)
+      )
+        .then(() => {
+          console.log("update schedule successful");
+        })
+        .catch(() => {
+          console.log("update schedule unsuccessful");
+        });
+    }
+  }, [currSchedule.count]);
+
   // TODO: clear form fields on fail
+  // TODO: confirm feed alert to prevent spamming
   const handleFeed = () => {
-    dispatch(feed(portion, currentUserObj.currentUser.uid))
+    dispatch(feed(currentUserObj.currentUser.uid, portion))
       .then(() => {
         console.log("feed successful");
       })
@@ -26,21 +51,44 @@ export default function HomeScreen() {
       });
   };
 
+  // Display modal for choosing feeding schedule
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   return (
     <View style={styles.containerMain}>
       <View style={styles.containerTop}>
+        <AmountSlider amount={portion} setAmount={setPortion} />
         <TouchableOpacity
-          style={styles.providerButton}
+          style={styles.feedButton}
           onPress={() => {
             handleFeed();
           }}
         >
           <Text>Feed Now</Text>
         </TouchableOpacity>
-        <AmountSlider amount={portion} setAmount={setPortion} />
       </View>
+      <Modal
+        isVisible={isModalVisible}
+        backdropColor={Colors.secondaryColor}
+        coverScreen={true}
+        backdropOpacity={0.95}
+      >
+        <View style={styles.modalContainer}>
+          <AddSchedule toggleModal={toggleModal} />
+        </View>
+      </Modal>
       <View style={styles.containerBottom}>
-        <AlarmList />
+        <ScheduleList schedule={currSchedule.schedule} />
+        <TouchableOpacity
+          style={styles.scheduleButton}
+          onPress={() => {
+            toggleModal();
+          }}
+        >
+          <Text>+</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

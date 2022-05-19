@@ -3,6 +3,7 @@ import Colors from "../../colors";
 
 const styles = StyleSheet.create({
   containerMain: {
+    // margin: 30,
     height: "90%",
     padding: 20,
   },

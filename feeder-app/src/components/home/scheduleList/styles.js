@@ -4,8 +4,10 @@ import Colors from "../../../colors";
 const styles = StyleSheet.create({
   containerMain: {
     // flex: 1,
-    padding: 40,
-    width: "90%",
+    margin: 20,
+    padding: 20,
+    width: "85%",
+    height: "73%",
   },
   providerButton: {
     backgroundColor: Colors.tertiaryColor,
@@ -14,6 +16,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: "30%",
     alignSelf: "center",
+  },
+  titleString: {
+    fontSize: 23,
   },
 });
 

@@ -2,9 +2,13 @@ import React, { useEffect } from "react";
 import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { userAuthStateListener } from "../../redux/actions/auth";
+import { getCurrentSchedule } from "../../redux/actions/schedule";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+
+import { StatusBar } from "expo-status-bar";
+
 import MainRoute from "../main";
 import AuthRoute from "../auth";
 
@@ -20,13 +24,19 @@ export default function Route() {
     dispatch(userAuthStateListener());
   }, []);
 
-  console.log(currentUserObj);
+  useEffect(() => {
+    if (currentUserObj.currentUser != null) {
+      dispatch(getCurrentSchedule(currentUserObj.currentUser.uid));
+    }
+  }, [currentUserObj]);
+
   if (!currentUserObj.loaded) {
     return <View />;
   }
 
   return (
     <NavigationContainer>
+      <StatusBar style="dark" />
       <Stack.Navigator>
         {currentUserObj.currentUser == null ? (
           <Stack.Screen

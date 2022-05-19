@@ -12,11 +12,11 @@ export default function AmountSlider({ amount, setAmount }) {
         style={{ width: 200, height: 40 }}
         value={amount}
         step={10}
-        minimumTrackTintColor={Colors.secondaryColor}
+        minimumTrackTintColor={Colors.tertiaryColor}
         maximumValue={100}
         onValueChange={(amount) => setAmount(amount)}
       />
-      <Text>Value: {amount}g</Text>
+      <Text>Feed Amount: {amount}g</Text>
     </View>
   );
 }
