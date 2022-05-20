@@ -29,15 +29,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   containerBottomText: {
-    padding: 10,
+    padding: 12,
+    marginBottom: -15,
     alignItems: "center",
+    flexDirection: "row",
   },
   bottomButtonText: {
     color: Colors.primaryColor,
-    fontSize: 11,
+    fontSize: 14,
   },
   subText: {
-    fontSize: 11,
+    fontSize: 14,
     color: "dimgray",
     textAlign: "center",
   },

@@ -22,17 +22,15 @@ export default function WelcomeScreen({ setIsLogin, setDetailsPage }) {
         </TouchableOpacity>
 
         <View style={styles.containerBottomText}>
-          <Text>
-            <Text style={styles.subText}>Already have an account? </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setDetailsPage(true);
-                setIsLogin(true);
-              }}
-            >
-              <Text style={styles.bottomButtonText}>Sign in</Text>
-            </TouchableOpacity>
-          </Text>
+          <Text style={styles.subText}>Already have an account?</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setDetailsPage(true);
+              setIsLogin(true);
+            }}
+          >
+            <Text style={styles.bottomButtonText}> Sign in</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

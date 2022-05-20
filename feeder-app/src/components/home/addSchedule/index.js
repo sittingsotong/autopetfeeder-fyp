@@ -10,6 +10,7 @@ import { SCHEDULE_ADD } from "../../../redux/constants";
 
 import styles from "./styles";
 import Colors from "../../../colors";
+import CustomAlert from "../alert";
 
 export default function AddSchedule({ toggleModal }) {
   const [date, setDate] = useState(new Date());
@@ -17,7 +18,14 @@ export default function AddSchedule({ toggleModal }) {
   const [weekdays, setWeekdays] = useState([]);
   // 1 = SUN, 2 = MON, 3 = TUE ...
 
+  // For custom alert
+  const [visible, setVisible] = useState(false);
+
   const dispatch = useDispatch();
+
+  const toggleAlert = () => {
+    setVisible(!visible);
+  };
 
   return (
     <View style={styles.containerMain}>
@@ -34,23 +42,33 @@ export default function AddSchedule({ toggleModal }) {
         <TouchableOpacity
           style={styles.exitButton}
           onPress={() => {
-            toggleModal();
+            if (portion == 0 || weekdays.length == 0) {
+              toggleAlert();
+            } else {
+              toggleModal();
 
-            // sends SCHEDULE_ADD message to add schedule to state
-            dispatch({
-              type: SCHEDULE_ADD,
-              schedule: {
-                hour: date.getHours(),
-                minute: date.getMinutes(),
-                portion: portion,
-                days: weekdays,
-              },
-            });
+              // sends SCHEDULE_ADD message to add schedule to state
+              dispatch({
+                type: SCHEDULE_ADD,
+                schedule: {
+                  hour: date.getHours(),
+                  minute: date.getMinutes(),
+                  portion: portion,
+                  days: weekdays,
+                },
+              });
+            }
           }}
         >
           <Text>Save</Text>
         </TouchableOpacity>
       </View>
+      <CustomAlert
+        error={true}
+        visible={visible}
+        toggleAlert={toggleAlert}
+        text="Cannot have empty portion or days"
+      />
       <DateTimePicker
         testID="dateTimePicker"
         value={date}

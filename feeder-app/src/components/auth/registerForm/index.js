@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import { register } from "../../../redux/actions";
+import CustomAlert from "../../home/alert";
 
 import styles from "./styles";
 
@@ -11,12 +12,19 @@ export default function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
 
+  // For alert
+  const [visible, setVisible] = useState(false);
+  const [text, setText] = useState("");
   const dispatch = useDispatch();
+
+  const toggleAlert = () => {
+    setVisible(!visible);
+  };
 
   const handleRegister = () => {
     if (password !== confirmPassword) {
-      alert("passwords don't match");
-      // TODO: make alert look better
+      setText("Passwords don't match");
+      toggleAlert();
       return;
     }
 
@@ -26,7 +34,8 @@ export default function RegisterForm() {
         console.log("register successful");
       })
       .catch(() => {
-        console.log("register unsuccessful");
+        setText("Registration Unsuccessful");
+        toggleAlert();
       });
   };
 
@@ -67,6 +76,12 @@ export default function RegisterForm() {
       >
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
+      <CustomAlert
+        error={true}
+        visible={visible}
+        toggleAlert={toggleAlert}
+        text={text}
+      />
     </View>
   );
 }

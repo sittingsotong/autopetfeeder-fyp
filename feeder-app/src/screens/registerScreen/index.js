@@ -19,12 +19,10 @@ export default function RegisterScreen({ setIsLogin, setDetailsPage }) {
       <RegisterForm />
 
       <View style={styles.containerBottom}>
-        <Text>
-          <Text style={styles.subText}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => setIsLogin(true)}>
-            <Text style={styles.bottomButtonText}>Sign in</Text>
-          </TouchableOpacity>
-        </Text>
+        <Text style={styles.subText}>Already have an account? </Text>
+        <TouchableOpacity onPress={() => setIsLogin(true)}>
+          <Text style={styles.bottomButtonText}>Sign in</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -14,17 +14,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   containerBottom: {
-    padding: 10,
+    padding: 12,
+    marginBottom: -15,
     alignItems: "center",
+    alignSelf: "center",
+    flexDirection: "row",
   },
   subText: {
-    fontSize: 11,
+    fontSize: 14,
     color: "dimgray",
     textAlign: "center",
   },
   bottomButtonText: {
     color: Colors.primaryColor,
-    fontSize: 11,
+    fontSize: 14,
   },
 });
 

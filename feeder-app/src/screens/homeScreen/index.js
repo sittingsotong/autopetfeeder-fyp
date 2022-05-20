@@ -7,8 +7,9 @@ import { updateSchedule } from "../../redux/actions/schedule";
 
 import Modal from "react-native-modal";
 import AmountSlider from "../../components/home/slider";
-import ScheduleList from "../../components/home/scheduleList";
 import AddSchedule from "../../components/home/addSchedule";
+import CustomAlert from "../../components/home/alert";
+import ScheduleList from "../../components/home/scheduleList";
 
 import styles from "./styles";
 import Colors from "../../colors";
@@ -21,6 +22,8 @@ export default function HomeScreen() {
   const [portion, setPortion] = useState(0);
 
   const [isModalVisible, setModalVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -39,21 +42,31 @@ export default function HomeScreen() {
     }
   }, [currSchedule.count]);
 
-  // TODO: clear form fields on fail
-  // TODO: confirm feed alert to prevent spamming
   const handleFeed = () => {
-    dispatch(feed(currentUserObj.currentUser.uid, portion))
-      .then(() => {
-        console.log("feed successful");
-      })
-      .catch(() => {
-        console.log("feed unsuccessful");
-      });
+    if (portion == 0) {
+      setError(true);
+      toggleAlert();
+    } else {
+      dispatch(feed(currentUserObj.currentUser.uid, portion))
+        .then(() => {
+          console.log("feed successful");
+        })
+        .catch(() => {
+          console.log("feed unsuccessful");
+        });
+
+      setError(false);
+      toggleAlert();
+    }
   };
 
   // Display modal for choosing feeding schedule
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+  };
+
+  const toggleAlert = () => {
+    setVisible(!visible);
   };
 
   return (
@@ -69,11 +82,18 @@ export default function HomeScreen() {
           <Text>Feed Now</Text>
         </TouchableOpacity>
       </View>
+      <CustomAlert
+        error={error}
+        visible={visible}
+        toggleAlert={toggleAlert}
+        text={error ? "Cannot feed 0g" : "Feed successful"}
+      />
       <Modal
         isVisible={isModalVisible}
         backdropColor={Colors.secondaryColor}
         coverScreen={true}
         backdropOpacity={0.95}
+        useNativeDriver={true}
       >
         <View style={styles.modalContainer}>
           <AddSchedule toggleModal={toggleModal} />

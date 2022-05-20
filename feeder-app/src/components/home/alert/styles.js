@@ -1,22 +1,7 @@
 import { StyleSheet } from "react-native";
-import Colors from "../../colors";
+import Colors from "../../../colors";
 
 const styles = StyleSheet.create({
-  containerMain: {
-    marginTop: 50,
-  },
-  containerTop: {
-    marginTop: 10,
-    alignItems: "center",
-  },
-  feedButton: {
-    backgroundColor: Colors.highlightColor,
-    padding: 10,
-    alignItems: "center",
-    borderRadius: 50,
-    width: "30%",
-    alignSelf: "center",
-  },
   alert: {
     backgroundColor: "white",
   },
@@ -65,20 +50,6 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: "#FFFFFF",
-  },
-  modalContainer: {
-    margin: 20,
-    alignItems: "center",
-  },
-  containerBottom: {
-    marginTop: 10,
-    alignItems: "center",
-  },
-  scheduleButton: {
-    margin: 10,
-    backgroundColor: Colors.highlightColor,
-    padding: 15,
-    borderRadius: 50,
   },
 });
 

@@ -20,12 +20,10 @@ export default function LoginScreen({ setIsLogin, setDetailsPage }) {
       <LoginForm />
 
       <View style={styles.containerBottom}>
-        <Text>
-          <Text style={styles.subText}>Don't have an account? </Text>
-          <TouchableOpacity onPress={() => setIsLogin(false)}>
-            <Text style={styles.bottomButtonText}>Sign up</Text>
-          </TouchableOpacity>
-        </Text>
+        <Text style={styles.subText}>Don't have an account? </Text>
+        <TouchableOpacity onPress={() => setIsLogin(false)}>
+          <Text style={styles.bottomButtonText}>Sign up</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
