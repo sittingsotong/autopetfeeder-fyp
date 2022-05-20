@@ -1,12 +1,13 @@
 import React from "react";
 import { View } from "react-native";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
-import Colors from "../../colors";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
 import HomeScreen from "../../screens/homeScreen";
 import GraphScreen from "../../screens/graphScreen";
+
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import Colors from "../../colors";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -14,8 +15,6 @@ const Tab = createMaterialBottomTabNavigator();
 const EmptyScreen = () => {
   return <View />;
 };
-
-// TODO: make icons change between white and black to indicate currently open screen
 
 export default function MainRoute() {
   return (
@@ -35,7 +34,7 @@ export default function MainRoute() {
         component={HomeScreen}
         options={{
           tabBarIcon: () => (
-            <MaterialIcons name="pets" size={20} color="black" />
+            <Ionicons name="ios-paw-outline" size={24} color="black" />
           ),
         }}
       />
