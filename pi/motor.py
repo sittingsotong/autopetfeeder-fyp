@@ -26,6 +26,7 @@ class Motor:
                         [0,0,0,1]]
         
         # setting up
+        GPIO.setwarnings(False)
         GPIO.setmode( GPIO.BCM )
         GPIO.setup(self.in1, GPIO.OUT)
         GPIO.setup(self.in2, GPIO.OUT)

@@ -43,7 +43,6 @@ feed_amt = Queue()
 # schdule is a global variable of a list of dictionaries
 schedule = []
 
-
 def on_snap(doc_snapshot, changes, read_time):
     """
     Callback function whenever changes have been made to the firestore db
@@ -143,8 +142,4 @@ feed_thread.start()
 
 # Main loop to cleanup motor object 
 while True:
-    try:
-        pass
-    except KeyboardInterrupt:
-        motor.cleanup()
-        exit(1)
+    pass
