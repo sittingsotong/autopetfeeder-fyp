@@ -1,13 +1,9 @@
-import firebase_admin
-from firebase_admin import credentials
-from google.cloud import firestore
-from firebase_admin import firestore
-
 import datetime
 import logging
 import threading
 from time import sleep
 
+from firestore import Firestore
 from motor import Motor
 from queue import Queue
 
@@ -16,34 +12,23 @@ logging.basicConfig(
     format="[%(levelname)s] (%(threadName)-10s) %(message)s",
 )
 
-cred = credentials.Certificate("petfeeder-key.json")
-firebase_admin.initialize_app(cred)
-
-db = firestore.client()
-
-## first read the schedule from the db
-## feed should be an interrupt
-## normal schedule should run as a thread
-
 #TODO: figure out user uid dynamically using bluetooth/wifi
 user_uid = "2F1q9aXMkVOcr7LwyFfHxnYsh3i1" 
 
-#adding first data
-doc_ref = db.collection('user').document(user_uid)
-
-## UNCOMMENT WHEN TESTING
-# # testing doc
-# doc_ref = db.collection('employee').document('empdoc')
-
 ### Global Variables
-
 # Queue for amount to manually feed
 feed_amt = Queue()
 
 # schdule is a global variable of a list of dictionaries
 schedule = []
 
-def on_snap(doc_snapshot, changes, read_time):
+# initialise motor object to be used for feeding
+motor = Motor()
+
+# initialise a firestore object
+db = Firestore(user_uid)
+
+def user_callback(doc_snapshot, changes, _):
     """
     Callback function whenever changes have been made to the firestore db
     Updates the global feed queue and schedule based on db
@@ -65,11 +50,9 @@ def on_snap(doc_snapshot, changes, read_time):
             logging.error("Error reading values")
 
 # Watch the document
-doc_watch = doc_ref.on_snapshot(on_snap)
+doc_watch = db.start_watch("user", user_callback)
 
-# initialise motor object to be used for feeding
-motor = Motor()
-
+### Main Thread Logic
 
 def feed_caller():
     """
@@ -82,7 +65,7 @@ def feed_caller():
                 portion = feed_amt.get()
 
                 # Set value back to 0 for next feed
-                doc_ref.update({"feedNow": 0})
+                db.update_doc("user", {"feedNow": 0})
 
                 # Call motor API to run motor
                 motor.rotate(portion)
@@ -140,6 +123,6 @@ feed_thread = threading.Thread(name="feed-thread", target=feed_caller, daemon=Tr
 schedule_thread.start()
 feed_thread.start()
 
-# Main loop to cleanup motor object 
+# Main loop to run while threads are daemonised
 while True:
     pass
