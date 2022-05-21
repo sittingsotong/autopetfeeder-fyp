@@ -1,8 +1,9 @@
 import firebase_admin
 from firebase_admin import credentials
 
-from google.cloud import firestore
+# from google.cloud import firestore
 from firebase_admin import firestore
+# from google.cloud.firestore_v1 import serverTimestamp
 
 
 ### Class object for firestore 
@@ -17,7 +18,7 @@ class Firestore():
 
         self.user_doc = self.db.collection('user').document(self.user_uid)
 
-        self.data_doc = self.db.collection('data').document(self.user_uid)
+        self.data_col = self.db.collection(self.user_uid)
 
         ## UNCOMMENT WHEN TESTING
         # # testing doc
@@ -40,20 +41,29 @@ class Firestore():
             return self.data_doc.on_snapshot(callback_func)
 
 
-    def update_doc(self, doc_type, data):
+    def update_user_doc(self, data):
         """
         High level function that uses the doc.update function to add data
         into the database
 
         Arguments
         ---------
-        doc_type: "user" = user_doc, "data" = data_doc
-
         data: JSON payload containing key and data of the values to be added
         ---------
-
         """
-        if doc_type == "user":
-            self.user_doc.update(data)
-        elif doc_type == "data":
-            self.data_doc.update(data)
+        self.user_doc.set(data, merge=True)
+
+
+    def add_to_data_col(self, data):
+        """
+        High level function that uses the col.add function to add data
+        into the database
+
+        Arguments
+        ---------
+        data: JSON payload containing key and data of the values to be added
+        ---------
+        """
+
+        data["created"] = firestore.SERVER_TIMESTAMP
+        self.data_col.add(data)

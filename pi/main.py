@@ -65,7 +65,10 @@ def feed_caller():
                 portion = feed_amt.get()
 
                 # Set value back to 0 for next feed
-                db.update_doc("user", {"feedNow": 0})
+                db.update_user_doc({"feedNow": 0})
+
+                # Add feeding data to data doc
+                db.add_to_data_col({"portion": portion })
 
                 # Call motor API to run motor
                 motor.rotate(portion)
@@ -99,6 +102,10 @@ def check_schedule():
             if weekday_map(weekday) in s["days"]:
                 # Day of week matches, start dispensing
                 logging.info("dispensing {}g now".format(s["portion"]))
+
+                # Add feeding data to data doc
+                db.add_to_data_col({"portion": s["portion"]})
+
                 motor.rotate(s["portion"])
 
 
