@@ -3,13 +3,17 @@ import { View, Text, TouchableOpacity } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
 import { feed } from "../../redux/actions/feed";
-import { updateSchedule } from "../../redux/actions/schedule";
+import {
+  getCurrentSchedule,
+  updateSchedule,
+} from "../../redux/actions/schedule";
 
 import Modal from "react-native-modal";
 import AmountSlider from "../../components/home/slider";
 import AddSchedule from "../../components/home/addSchedule";
 import CustomAlert from "../../components/home/alert";
 import ScheduleList from "../../components/home/scheduleList";
+import TitleAndLine from "../../components/home/titleAndLine";
 
 import styles from "./styles";
 import Colors from "../../colors";
@@ -27,6 +31,13 @@ export default function HomeScreen() {
 
   const dispatch = useDispatch();
 
+  // upon login, update schdule for the user
+  useEffect(() => {
+    if (currentUserObj.currentUser != null) {
+      dispatch(getCurrentSchedule(currentUserObj.currentUser.uid));
+    }
+  }, [currentUserObj]);
+
   // on every update of schedule, update firestore db
   useEffect(() => {
     if (currSchedule.loaded == true) {
@@ -42,6 +53,7 @@ export default function HomeScreen() {
     }
   }, [currSchedule.count]);
 
+  // trigger a feed by updating firestore db
   const handleFeed = () => {
     if (portion == 0) {
       setError(true);
@@ -72,6 +84,7 @@ export default function HomeScreen() {
   return (
     <View style={styles.containerMain}>
       <View style={styles.containerTop}>
+        <TitleAndLine title="Manual Feeding" />
         <AmountSlider amount={portion} setAmount={setPortion} />
         <TouchableOpacity
           style={styles.feedButton}
@@ -100,6 +113,7 @@ export default function HomeScreen() {
         </View>
       </Modal>
       <View style={styles.containerBottom}>
+        <TitleAndLine title={"Scheduled Feeding"} />
         <ScheduleList schedule={currSchedule.schedule} />
         <TouchableOpacity
           style={styles.scheduleButton}

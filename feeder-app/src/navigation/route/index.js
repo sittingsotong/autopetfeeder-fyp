@@ -24,12 +24,6 @@ export default function Route() {
     dispatch(userAuthStateListener());
   }, []);
 
-  useEffect(() => {
-    if (currentUserObj.currentUser != null) {
-      dispatch(getCurrentSchedule(currentUserObj.currentUser.uid));
-    }
-  }, [currentUserObj]);
-
   if (!currentUserObj.loaded) {
     return <View />;
   }

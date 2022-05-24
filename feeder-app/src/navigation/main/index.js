@@ -1,10 +1,12 @@
 import React from "react";
 import { View } from "react-native";
 
-import HomeScreen from "../../screens/homeScreen";
 import GraphScreen from "../../screens/graphScreen";
+import HomeScreen from "../../screens/homeScreen";
+import ProfileScreen from "../../screens/profileScreen";
 
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import Colors from "../../colors";
@@ -23,10 +25,12 @@ export default function MainRoute() {
       initialRouteName="Home"
     >
       <Tab.Screen
-        name="Feed"
+        name="History"
         component={GraphScreen}
         options={{
-          tabBarIcon: () => <Feather name="video" size={20} color="black" />,
+          tabBarIcon: () => (
+            <Entypo name="line-graph" size={22} color="black" />
+          ),
         }}
       />
       <Tab.Screen
@@ -34,15 +38,15 @@ export default function MainRoute() {
         component={HomeScreen}
         options={{
           tabBarIcon: () => (
-            <Ionicons name="ios-paw-outline" size={24} color="black" />
+            <Ionicons name="ios-paw-outline" size={22} color="black" />
           ),
         }}
       />
       <Tab.Screen
         name="Profile"
-        component={EmptyScreen}
+        component={ProfileScreen}
         options={{
-          tabBarIcon: () => <Feather name="user" size={20} color="black" />,
+          tabBarIcon: () => <Feather name="user" size={22} color="black" />,
         }}
       />
     </Tab.Navigator>

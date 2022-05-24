@@ -3,10 +3,10 @@ import Colors from "../../colors";
 
 const styles = StyleSheet.create({
   containerMain: {
+    flex: 1,
     marginTop: 50,
   },
   containerTop: {
-    marginTop: 10,
     alignItems: "center",
   },
   feedButton: {
@@ -71,11 +71,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   containerBottom: {
-    marginTop: 10,
+    flex: 1,
+    marginTop: 30,
     alignItems: "center",
   },
   scheduleButton: {
-    margin: 10,
+    marginBottom: 10,
     backgroundColor: Colors.highlightColor,
     padding: 15,
     borderRadius: 50,
