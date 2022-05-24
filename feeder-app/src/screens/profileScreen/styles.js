@@ -5,13 +5,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 50,
   },
-  graphContainer: {
-    padding: 20,
-    alignItems: "center",
-  },
-  titleText: {
-    fontSize: 20,
-  },
 });
 
 export default styles;
