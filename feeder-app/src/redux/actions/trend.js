@@ -10,18 +10,18 @@ export const dataListener = (userUid) => (dispatch) => {
     .onSnapshot((snapshot) => {
       snapshot.docChanges().forEach((change) => {
         const data = change.doc.data();
-        const date = data["created"].toDate();
+        const date = data["updated"].toDate();
+        date.setHours(0, 0, 0, 0);
 
         if (change.type === "added") {
           dispatch({
             type: DB_ADD,
             data: {
               ...data,
-              id: change.doc.id,
-              date: date,
-              portion: parseInt(data["portion"]),
+              date: change.doc.id,
+              updated: date,
             },
-            id: change.doc.id,
+            date: change.doc.id,
           });
         }
         if (change.type === "modified") {
@@ -29,17 +29,16 @@ export const dataListener = (userUid) => (dispatch) => {
             type: DB_MODIFY,
             data: {
               ...data,
-              id: change.doc.id,
-              date: date,
-              portion: parseInt(data["portion"]),
+              date: change.doc.id,
+              updated: date,
             },
-            id: change.doc.id,
+            date: change.doc.id,
           });
         }
         if (change.type === "removed") {
           dispatch({
             type: DB_DELETE,
-            id: change.doc.id,
+            date: change.doc.id,
           });
         }
       });

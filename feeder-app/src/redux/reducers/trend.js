@@ -8,22 +8,20 @@ const initialState = {
 /* 
 data is a list of objects containing
 {
-  id: unique document id 
-  created: date and time the feeding was done (an object of nanoseconds and seconds)
-  // TODO: maybe combine created and date into 1, just call it date
-  date: js Date object
-  portion: portion fed in grams (int)
+  date: date string in dd-mm-yy format (unique)
+  times: arr of time objects 
+  portions: arr of portion (ints)
+  sumPortions: total portion fed in grams (int)
 }
 */
 
 export const trend = (state = initialState, action) => {
   switch (action.type) {
     case DB_ADD:
-      // FIXME: need to check if the id already exists
-      const index = state.data.findIndex((val) => val.id == action.id);
+      const index = state.data.findIndex((val) => val.date == action.date);
 
       if (index == -1) {
-        // error, value is new
+        // error, data is new
         return {
           ...state,
           data: [...state.data, action.data],
@@ -40,7 +38,7 @@ export const trend = (state = initialState, action) => {
       }
 
     case DB_MODIFY:
-      const valIdx = state.data.findIndex((val) => val.id == action.id);
+      const valIdx = state.data.findIndex((val) => val.date == action.date);
 
       const newData = [...state.data];
       newData[valIdx] = action.data;
@@ -53,7 +51,7 @@ export const trend = (state = initialState, action) => {
     case DB_DELETE:
       return {
         ...state,
-        data: state.data.filter((val) => val.id !== action.id),
+        data: state.data.filter((val) => val.date !== action.date),
       };
 
     default:
