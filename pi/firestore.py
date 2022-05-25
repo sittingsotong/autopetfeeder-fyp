@@ -1,10 +1,9 @@
 import firebase_admin
 from firebase_admin import credentials
 
-# from google.cloud import firestore
 from firebase_admin import firestore
-# from google.cloud.firestore_v1 import serverTimestamp
 
+from datetime import datetime
 
 ### Class object for firestore 
 class Firestore():
@@ -56,8 +55,8 @@ class Firestore():
 
     def add_to_data_col(self, data):
         """
-        High level function that uses the col.add function to add data
-        into the database
+        Given the dictionary of data to be added, the information is parsed and added into
+        the user data collection
 
         Arguments
         ---------
@@ -65,5 +64,41 @@ class Firestore():
         ---------
         """
 
-        data["created"] = firestore.SERVER_TIMESTAMP
-        self.data_col.add(data)
+        # If the day document exists, 
+        # append to times arr, portion arr and add to sumPortion (optional)
+        # Else,
+        # create a new document with times arr = [time], portions = [portion]
+
+        # datetime object containing current date and time
+        now = datetime.now()
+        
+        print("now =", now)
+
+        # dd/mm/YY H:M:S
+        date_str = now.strftime("%d-%m-%Y")
+        print("date and time =", date_str)
+
+        today_doc = self.data_col.document(date_str)
+        
+        try:
+            # Atomically add a new portion to the 'portions' array field.
+            today_doc.update({"times": firestore.ArrayUnion([now])})
+            today_doc.update({"portions": firestore.ArrayUnion([data["portion"]])})
+            today_doc.update({"sumPortions": firestore.Increment(data["portion"])})
+            today_doc.update({"updated": firestore.SERVER_TIMESTAMP})
+        except:
+            # document does not already exist, create it
+            data = {
+                "times": [now],
+                "portions": [data["portion"]],
+                "sumPortions": data["portion"],
+                "updated": firestore.SERVER_TIMESTAMP,
+            }
+
+            today_doc.set(data)
+
+if __name__ == "__main__":
+    ## TESTING
+    fs = Firestore("2F1q9aXMkVOcr7LwyFfHxnYsh3i1")
+
+    fs.add_to_data_col({"portion": 30})
