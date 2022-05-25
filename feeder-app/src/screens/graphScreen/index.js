@@ -86,10 +86,9 @@ export default function GraphScreen() {
     <View style={styles.containerMain}>
       <TitleAndLine title="History" />
       <View style={styles.graphContainer}>
-        {console.log(currData.data)}
         <Text style={styles.titleText}>Feeding History</Text>
         <VictoryChart
-          domainPadding={30}
+          domainPadding={20}
           height={600}
           theme={VictoryTheme.material}
           scale={{ x: "time", y: "linear" }}
@@ -122,7 +121,7 @@ export default function GraphScreen() {
             alignment="middle"
             x="updated"
             y="sumPortions"
-            // labels={({ datum }) => `${renderDates(datum.updated)}`}
+            labels={({ datum }) => `${datum.sumPortions}g`}
             // labelComponent={<VictoryLabel dy={30} />}
           />
         </VictoryChart>
