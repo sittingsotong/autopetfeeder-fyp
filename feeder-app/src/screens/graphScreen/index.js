@@ -4,18 +4,18 @@ import {
   VictoryAxis,
   VictoryBar,
   VictoryChart,
-  VictoryLine,
-  VictoryLabel,
   VictoryTheme,
+  VictoryTooltip,
   VictoryZoomContainer,
 } from "victory-native";
 
+import TitleAndLine from "../../components/home/titleAndLine";
+
 import { useDispatch, useSelector } from "react-redux";
 import { dataListener } from "../../redux/actions/trend";
+
 import styles from "./styles";
 import Colors from "../../colors";
-import { render } from "react-dom";
-import TitleAndLine from "../../components/home/titleAndLine";
 
 export default function GraphScreen() {
   const currentUserObj = useSelector((state) => state.auth);
@@ -27,13 +27,22 @@ export default function GraphScreen() {
   };
 
   // Helper function for generating list of tick values
-  const genDates = (start, end) => {
+  const genDates = () => {
+    var start = new Date();
+    if (currData.data.length == 0) {
+      start = new Date();
+    } else {
+      start = currData.data[0]["updated"];
+    }
+
+    const end = new Date();
+
     var dateArr = new Array();
     var currentDate = start;
 
     while (currentDate <= end) {
       dateArr.push(new Date(currentDate));
-      currentDate = xDaysAway(currentDate, 1);
+      currentDate = xDaysAway(new Date(currentDate), 1);
     }
 
     return dateArr;
@@ -64,14 +73,23 @@ export default function GraphScreen() {
     return <View />;
   }
 
+  /* 
+  TODO: Have an option that renders as line graph
+  line graph will need to fill missing dates as 0
+  maybe can use a custom hook to update state?
+
+  TODO: can have an option that views information in detail
+  rendering a different component
+  */
+
   return (
     <View style={styles.containerMain}>
       <TitleAndLine title="History" />
       <View style={styles.graphContainer}>
+        {console.log(currData.data)}
         <Text style={styles.titleText}>Feeding History</Text>
         <VictoryChart
           domainPadding={30}
-          domain={{ y: [0, 100] }}
           height={600}
           theme={VictoryTheme.material}
           scale={{ x: "time", y: "linear" }}
@@ -80,33 +98,31 @@ export default function GraphScreen() {
               zoomDimension="x"
               allowZoom={false}
               zoomDomain={{
-                y: [0, 110],
-                x: [xDaysAway(new Date(), -5), xDaysAway(new Date(), 1)],
+                x: [xDaysAway(new Date(), -7), xDaysAway(new Date(), 1)],
               }}
             />
           }
         >
           <VictoryAxis
-            // tickValues={currData.data.map((d) => new Date(d.date))}
-            tickFormat={(t) => renderDates(t)}
-            tickValues={genDates(currData.data[0], currData.data[-1])}
+            tickCount={8}
+            tickFormat={(t) => renderDates(new Date(t))}
+            tickValues={genDates()}
           />
           <VictoryAxis
             dependentAxis
-            tickValues={[0, 20, 40, 60, 80, 100]}
+            tickCount={10}
             tickFormat={(y) => `${y}g`}
           />
           <VictoryBar
             padding={{ left: 20, right: 60 }}
             style={{
               data: { fill: Colors.highlightColor },
-              // labels: { fill: "black" },
             }}
             data={currData.data}
             alignment="middle"
-            x="date"
-            y="portion"
-            labels={({ datum }) => `${renderDates(datum.date)}`}
+            x="updated"
+            y="sumPortions"
+            // labels={({ datum }) => `${renderDates(datum.updated)}`}
             // labelComponent={<VictoryLabel dy={30} />}
           />
         </VictoryChart>
