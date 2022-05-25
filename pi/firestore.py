@@ -71,31 +71,28 @@ class Firestore():
 
         # datetime object containing current date and time
         now = datetime.now()
-        
-        print("now =", now)
 
         # dd/mm/YY H:M:S
         date_str = now.strftime("%d-%m-%Y")
-        print("date and time =", date_str)
 
         today_doc = self.data_col.document(date_str)
-        
+
         try:
-            # Atomically add a new portion to the 'portions' array field.
-            today_doc.update({"times": firestore.ArrayUnion([now])})
-            today_doc.update({"portions": firestore.ArrayUnion([data["portion"]])})
-            today_doc.update({"sumPortions": firestore.Increment(data["portion"])})
-            today_doc.update({"updated": firestore.SERVER_TIMESTAMP})
+            # Update fields by appending to array or incrementing values
+            today_doc.update({
+                    "times": firestore.ArrayUnion([now]), 
+                    "portions": firestore.ArrayUnion([data["portion"]]),
+                    "sumPortions": firestore.Increment(data["portion"]),
+                    "updated": now
+                })
         except:
             # document does not already exist, create it
-            data = {
+            today_doc.set({
                 "times": [now],
                 "portions": [data["portion"]],
                 "sumPortions": data["portion"],
-                "updated": firestore.SERVER_TIMESTAMP,
-            }
-
-            today_doc.set(data)
+                "updated": now,
+            })
 
 if __name__ == "__main__":
     ## TESTING

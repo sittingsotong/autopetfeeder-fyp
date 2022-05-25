@@ -44,6 +44,10 @@ def user_callback(doc_snapshot, changes, _):
             if portion > 0:
                 feed_amt.put(portion)
 
+            # Set value back to 0 for next feed
+            db.update_user_doc({"feedNow": 0})
+
+            # Keep local storage of schedule updated
             global schedule
             schedule = data["schedule"]
         except:
@@ -56,16 +60,14 @@ doc_watch = db.start_watch("user", user_callback)
 
 def feed_caller():
     """
-    Feed loop, checks if the feed queue is empty, and triggers a dispense if not
-    Feed queue will be updated by the firestore snapshot callback
+    Feed loop, checks if the feed queue is empty, and triggers a dispense 
+    based on the portion provided
+    Updates the firestore db with feed portion
     """
     while True:
         try:
             while not feed_amt.empty():
                 portion = feed_amt.get()
-
-                # Set value back to 0 for next feed
-                db.update_user_doc({"feedNow": 0})
 
                 # Add feeding data to data doc
                 db.add_to_data_col({"portion": portion })
@@ -100,13 +102,13 @@ def check_schedule():
             weekday = now.isoweekday()
 
             if weekday_map(weekday) in s["days"]:
+                portion = int(s["portion"])
+
                 # Day of week matches, start dispensing
-                logging.info("dispensing {}g now".format(s["portion"]))
+                logging.info("dispensing {}g now".format(portion))
 
-                # Add feeding data to data doc
-                db.add_to_data_col({"portion": s["portion"]})
-
-                motor.rotate(s["portion"])
+                # Add amount to feed queue
+                feed_amt.put(portion)
 
 
 def schedule_caller():
