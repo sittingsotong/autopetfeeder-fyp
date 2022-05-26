@@ -4,8 +4,8 @@ import {
   VictoryAxis,
   VictoryBar,
   VictoryChart,
+  VictoryLabel,
   VictoryTheme,
-  VictoryTooltip,
   VictoryZoomContainer,
 } from "victory-native";
 
@@ -122,7 +122,7 @@ export default function GraphScreen() {
             x="updated"
             y="sumPortions"
             labels={({ datum }) => `${datum.sumPortions}g`}
-            // labelComponent={<VictoryLabel dy={30} />}
+            labelComponent={<VictoryLabel />}
           />
         </VictoryChart>
       </View>
