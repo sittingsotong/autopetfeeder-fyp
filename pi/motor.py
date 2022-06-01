@@ -9,7 +9,7 @@ class Motor:
         self.in4 = 22
 
         # careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
-        self.step_sleep = 0.002
+        self.step_sleep = 0.003
 
         self.step_count = 4096 # 5.625*(1/64) per step, 4096 steps is 360°
 
