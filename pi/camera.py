@@ -18,8 +18,11 @@ while True:
     frame = imutils.resize(frame, width=1000)
 
     # show the output frame
-    cv2.imshow("Frame", frame)
+    # cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
+
+    cv2.imwrite('test.png', frame)
+
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
         break
