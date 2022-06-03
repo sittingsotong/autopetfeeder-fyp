@@ -9,7 +9,7 @@ class Motor:
         self.in4 = 22
 
         # careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
-        self.step_sleep = 0.003
+        self.step_sleep = 0.001
 
         self.step_count = 4096 # 5.625*(1/64) per step, 4096 steps is 360°
 
@@ -52,11 +52,11 @@ class Motor:
 
 
     def rotate(self, amt):
-        rotate_amt = int(amt/100 * self.step_count)
+        # 100g = 5 full rotations?
+        rotate_amt = int(amt/20 * self.step_count)
 
         try:
-            i = 0
-            for i in range(rotate_amt):
+            for _ in range(rotate_amt):
                 for pin in range(0, len(self.motor_pins)):
                     GPIO.output(self.motor_pins[pin], self.step_sequence[self.motor_step_counter][pin])
                 if self.direction==True:

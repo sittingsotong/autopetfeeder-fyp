@@ -126,11 +126,11 @@ def schedule_caller():
 
 
 ## THREADING ##
-schedule_thread = threading.Thread(name="schedule-thread", target=schedule_caller, daemon=True)
 feed_thread = threading.Thread(name="feed-thread", target=feed_caller, daemon=True)
+schedule_thread = threading.Thread(name="schedule-thread", target=schedule_caller, daemon=True)
 
-schedule_thread.start()
 feed_thread.start()
+schedule_thread.start()
 
 # Main loop to run while threads are daemonised
 while True:
