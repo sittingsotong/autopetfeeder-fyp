@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { userAuthStateListener } from "../../redux/actions/auth";
-import { getCurrentSchedule } from "../../redux/actions/schedule";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";

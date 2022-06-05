@@ -11,7 +11,7 @@ export default function AmountSlider({ amount, setAmount }) {
       <Slider
         style={{ width: 200, height: 40 }}
         value={amount}
-        step={10}
+        step={5}
         minimumTrackTintColor={Colors.tertiaryColor}
         maximumValue={100}
         onValueChange={(amount) => setAmount(amount)}
