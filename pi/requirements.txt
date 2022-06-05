@@ -1,6 +1,7 @@
 setuptools==45.2.0
 wheel==0.34.2
 numpy==1.22.2
+pandas==1.4.2
 imutils==0.5.4
 opencv-contrib-python==4.5.5.62
 
