@@ -8,7 +8,7 @@ opencv-contrib-python==4.5.5.62
 RPi.GPIO==0.7.1
 firebase-admin==5.2.0
 google-cloud-firestore==2.5.0
-grpcio==1.44.0
+grpcio==1.34.1
 tensorflow==2.5.0
 keras==2.4.3
 pillow==9.1.1

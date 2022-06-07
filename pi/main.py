@@ -3,6 +3,8 @@ import logging
 import threading
 from time import sleep
 
+from camera import RPiCamera
+from detector import PelletDetector
 from firestore import Firestore
 from motor import Motor
 from queue import Queue
@@ -19,6 +21,9 @@ user_uid = "2F1q9aXMkVOcr7LwyFfHxnYsh3i1"
 # Queue for amount to manually feed
 feed_amt = Queue()
 
+# Threading event to indicate if a feed has been done
+feed_flag = threading.Event()
+
 # schdule is a global variable of a list of dictionaries
 schedule = []
 
@@ -28,6 +33,13 @@ motor = Motor()
 # initialise a firestore object
 db = Firestore(user_uid)
 
+# initialise detector model object
+detector = PelletDetector('model.h5')
+
+# initialise camera 
+cam = RPiCamera()
+
+### Callback Functions
 def user_callback(doc_snapshot, changes, _):
     """
     Callback function whenever changes have been made to the firestore db
@@ -56,8 +68,7 @@ def user_callback(doc_snapshot, changes, _):
 # Watch the document
 doc_watch = db.start_watch("user", user_callback)
 
-### Main Thread Logic
-
+### Main Threading Logic
 def feed_caller():
     """
     Feed loop, checks if the feed queue is empty, and triggers a dispense 
@@ -70,7 +81,10 @@ def feed_caller():
                 portion = feed_amt.get()
 
                 # Add feeding data to data doc
-                db.add_to_data_col({"portion": portion })
+                db.add_to_data_col(portion)
+
+                # Set feed flag 
+                feed_flag.set()
 
                 # Call motor API to run motor
                 motor.rotate(portion)
@@ -125,12 +139,42 @@ def schedule_caller():
         sleep(300)
 
 
+def detector_caller():
+    """
+    Thread triggered by a timer after a feed mechanism to check how much
+    pellets are remaining in the bowl.
+
+    An upgrade would be using RFID to detect when the pet has finished eating
+    """
+    while True: 
+        if(feed_flag.is_set()):
+            logging.info("fed")
+            # wait 1min for the pet to finish eating
+            sleep(60) 
+
+            # clear the flag
+            feed_flag.clear()
+
+            # take picture
+            img_path = cam.capture_food()
+
+            # run the model
+            prediction = detector.predict(img_path)
+
+            prediction = round(prediction[0][0] * 100, 2)
+
+            logging.info(prediction)
+            db.add_pellet_count_to_db(prediction)
+
+
 ## THREADING ##
 feed_thread = threading.Thread(name="feed-thread", target=feed_caller, daemon=True)
 schedule_thread = threading.Thread(name="schedule-thread", target=schedule_caller, daemon=True)
+detector_thread = threading.Thread(name="detector-thread", target=detector_caller, daemon=True)
 
 feed_thread.start()
 schedule_thread.start()
+detector_thread.start()
 
 # Main loop to run while threads are daemonised
 while True:

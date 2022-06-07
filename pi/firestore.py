@@ -53,21 +53,15 @@ class Firestore():
         self.user_doc.set(data, merge=True)
 
 
-    def add_to_data_col(self, data):
+    def add_to_data_col(self, portion):
         """
-        Given the dictionary of data to be added, the information is parsed and added into
-        the user data collection
+        Given the portion in grams that was fed, add the data into the firestore db
 
         Arguments
         ---------
         data: JSON payload containing key and data of the values to be added
         ---------
         """
-
-        # If the day document exists, 
-        # append to times arr, portion arr and add to sumPortion (optional)
-        # Else,
-        # create a new document with times arr = [time], portions = [portion]
 
         # datetime object containing current date and time
         now = datetime.now()
@@ -81,18 +75,40 @@ class Firestore():
             # Update fields by appending to array or incrementing values
             today_doc.update({
                     "times": firestore.ArrayUnion([now]), 
-                    "portions": firestore.ArrayUnion([data["portion"]]),
-                    "sumPortions": firestore.Increment(data["portion"]),
+                    "portions": firestore.ArrayUnion([portion]),
+                    "sumPortions": firestore.Increment(portion),
                     "updated": now
                 })
         except:
             # document does not already exist, create it
             today_doc.set({
                 "times": [now],
-                "portions": [data["portion"]],
-                "sumPortions": data["portion"],
+                "portions": [portion],
+                "sumPortions": portion,
                 "updated": now,
             })
+
+
+    def add_pellet_count_to_db(self, estimate):
+        """
+        Given the estimate amount of pellets remaining in grams, update the document
+        with the remaining amount of pellets
+        """
+        
+        # datetime object containing current date and time
+        now = datetime.now()
+
+        # dd/mm/YY H:M:S
+        date_str = now.strftime("%d-%m-%Y")
+
+        today_doc = self.data_col.document(date_str)
+
+        # Update fields by appending to array
+        today_doc.update({
+                "remaining": firestore.ArrayUnion([estimate]),
+                "updated": now
+            })
+
 
 if __name__ == "__main__":
     ## TESTING

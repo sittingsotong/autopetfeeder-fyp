@@ -1,32 +1,38 @@
 import cv2
-from imutils.video import VideoStream
 import imutils
-import logging
 import time
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(levelname)s] (%(threadName)-10s) %(message)s",
-)
+from datetime import datetime
+from imutils.video import VideoStream
+from servo import CameraServo
 
-logging.info("starting video stream...")
-vs = VideoStream(src=0).start()
-time.sleep(1.0)
+class RPiCamera():
+    def __init__(self, path='images/'):
+        self.vs = VideoStream(src=0).start()
+        self.servo = CameraServo()
+        self.path = path
+        time.sleep(1)
 
-while True:
-    frame = vs.read()
-    frame = imutils.resize(frame, width=1000)
 
-    # show the output frame
-    # cv2.imshow("Frame", frame)
-    key = cv2.waitKey(1) & 0xFF
+    def capture_food(self):
+        now = datetime.now()
+        date_str = now.strftime("%d-%m-%Y-%H:%M:%S")
+        img_path = date_str+'.png'
+        self.servo.look_down()
 
-    cv2.imwrite('test.png', frame)
+        frame = self.vs.read()
+        frame = imutils.resize(frame, width=1000)
+        path = self.path + img_path
+        cv2.imwrite(path, frame)
 
-    # if the `q` key was pressed, break from the loop
-    if key == ord("q"):
-        break
+        return path
 
-# do a bit of cleanup
-cv2.destroyAllWindows()
-vs.stop()
+
+    def cleanup(self):
+        self.vs.stop()
+
+
+if __name__ == "__main__":
+    cam = RPiCamera()
+    cam.capture_food()
+    cam.cleanup()
