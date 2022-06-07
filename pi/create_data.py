@@ -32,7 +32,7 @@ label_path = "data.csv"
 
 # %%
 ### PARAMETERS TO CHANGE BEFORE EACH CALL
-label = 100 ## int in grams of how much pellets are in these sets of photos
+label = 0 ## int in grams of how much pellets are in these sets of photos
 prev_count = 0 ## how many images of this label we already have
 
 count = 50 - prev_count  ## number of images we want to create for this label
