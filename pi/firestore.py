@@ -72,10 +72,14 @@ class Firestore():
         today_doc = self.data_col.document(date_str)
 
         try:
-            # Update fields by appending to array or incrementing values
+            # read portions array from document
+            doc = today_doc.get()
+            portions = doc.to_dict()["portions"]
+            portions.append(portion)
+
             today_doc.update({
                     "times": firestore.ArrayUnion([now]), 
-                    "portions": firestore.ArrayUnion([portion]),
+                    "portions": portions,
                     "sumPortions": firestore.Increment(portion),
                     "updated": now
                 })
@@ -114,4 +118,4 @@ if __name__ == "__main__":
     ## TESTING
     fs = Firestore("2F1q9aXMkVOcr7LwyFfHxnYsh3i1")
 
-    fs.add_to_data_col({"portion": 30})
+    fs.add_to_data_col(30)

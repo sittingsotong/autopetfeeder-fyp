@@ -24,10 +24,10 @@ class Motor:
                         [0,0,1,0],
                         [0,0,1,1],
                         [0,0,0,1]]
-        
+
         # setting up
         GPIO.setwarnings(False)
-        GPIO.setmode( GPIO.BCM )
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.in1, GPIO.OUT)
         GPIO.setup(self.in2, GPIO.OUT)
         GPIO.setup(self.in3, GPIO.OUT)
@@ -70,11 +70,16 @@ class Motor:
                 
                 time.sleep(self.step_sleep)
 
+            # self.cleanup()
+
         except KeyboardInterrupt:
             self.cleanup()
             exit(1)
 
 if __name__ == '__main__':
     motor = Motor()
-    motor.rotate(50)
-    motor.cleanup()
+    motor.rotate(10)
+
+    time.sleep(10)
+
+    motor.rotate(20)

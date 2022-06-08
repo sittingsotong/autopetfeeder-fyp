@@ -148,9 +148,8 @@ def detector_caller():
     """
     while True: 
         if(feed_flag.is_set()):
-            logging.info("fed")
             # wait 1min for the pet to finish eating
-            sleep(60) 
+            sleep(5) ## CHANGE VALUE FOR TESTING
 
             # clear the flag
             feed_flag.clear()
