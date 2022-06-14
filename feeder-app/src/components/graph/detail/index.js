@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity, Text, View } from "react-native";
 import {
-  VictoryArea,
   VictoryAxis,
+  VictoryBar,
   VictoryLegend,
   VictoryChart,
   VictoryLabel,
-  VictoryScatter,
   VictoryTheme,
   VictoryZoomContainer,
-  VictoryBar,
 } from "victory-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-import Colors from "../../../colors";
 import styles from "./styles";
+import Colors from "../../../colors";
 
 export default function DetailGraph({ data }) {
   const [day, setDay] = useState(new Date());

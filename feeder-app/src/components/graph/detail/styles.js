@@ -20,9 +20,6 @@ const styles = StyleSheet.create({
     color: Colors.highlightColor,
     fontSize: 20,
   },
-  graphContainer: {
-    flex: 1,
-  },
 });
 
 export default styles;

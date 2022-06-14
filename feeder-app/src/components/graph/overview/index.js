@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import {
   VictoryAxis,
   VictoryBar,
@@ -10,6 +10,7 @@ import {
 } from "victory-native";
 
 import Colors from "../../../colors";
+import styles from "./styles";
 
 export default function OverviewGraph({ data }) {
   // Helper Function for calculating a date object x days away
@@ -53,7 +54,10 @@ export default function OverviewGraph({ data }) {
   };
 
   return (
-    <View>
+    <View style={styles.containerMain}>
+      <View style={styles.containerTitle}>
+        <Text style={styles.titleText}>Overall Feeding History Per Day</Text>
+      </View>
       <VictoryChart
         domainPadding={20}
         height={600}
