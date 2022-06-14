@@ -68,6 +68,7 @@ def user_callback(doc_snapshot, changes, _):
 # Watch the document
 doc_watch = db.start_watch("user", user_callback)
 
+
 ### Main Threading Logic
 def feed_caller():
     """
