@@ -78,7 +78,7 @@ export default function DetailGraph({ data }) {
       setFeedData([]);
       setPredData([]);
     }
-  }, [day]);
+  }, [day, data]);
 
   return (
     <View style={styles.containerMain}>
@@ -100,7 +100,7 @@ export default function DetailGraph({ data }) {
       />
 
       <VictoryChart
-        domainPadding={35}
+        domainPadding={45}
         height={600}
         theme={VictoryTheme.material}
         scale={{ x: "time", y: "linear" }}
@@ -139,26 +139,28 @@ export default function DetailGraph({ data }) {
           padding={{ left: 20, right: 60 }}
           style={{
             data: { fill: Colors.highlightColor },
-            parent: { border: "1px solid #ccc" },
           }}
           data={feedData}
           alignment="middle"
           x="feedTime"
           y="portion"
-          labels={({ datum }) => `${datum.feedTime.toLocaleTimeString()}`}
+          labels={({ datum }) =>
+            `${datum.portion}g\n${renderTimes(datum.feedTime)}`
+          }
           labelComponent={<VictoryLabel />}
         />
         <VictoryBar
           padding={{ left: 20, right: 60 }}
           style={{
             data: { fill: Colors.tertiaryColor },
-            parent: { border: "1px solid #ccc" },
           }}
           data={predData}
           alignment="middle"
           x="predTime"
           y="prediction"
-          labels={({ datum }) => `${datum.predTime.toLocaleTimeString()}`}
+          labels={({ datum }) =>
+            `${datum.prediction}g\n${renderTimes(datum.predTime)}`
+          }
           labelComponent={<VictoryLabel />}
         />
       </VictoryChart>

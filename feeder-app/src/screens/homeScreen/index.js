@@ -24,7 +24,6 @@ export default function HomeScreen() {
   const currSchedule = useSelector((state) => state.schedule);
 
   const [portion, setPortion] = useState(0);
-
   const [isModalVisible, setModalVisible] = useState(false);
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState(false);

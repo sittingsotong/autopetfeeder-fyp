@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "feeder-app",
-    "slug": "feeder-app",
+    "name": "smartfeeder",
+    "slug": "smartfeeder",
     "version": "1.0.0",
+    "sdkVersion": "44.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,9 +18,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ee.smartfeeder"
     },
     "android": {
+      "package": "com.ee.smartfeeder",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
