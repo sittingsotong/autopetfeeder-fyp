@@ -1,5 +1,7 @@
-import React from "react";
-import { View } from "react-native";
+import React, { useEffect } from "react";
+
+import { getCurrentSchedule } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 import GraphScreen from "../../screens/graphScreen";
 import HomeScreen from "../../screens/homeScreen";
@@ -9,16 +11,23 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+
 import Colors from "../../colors";
 
 const Tab = createMaterialBottomTabNavigator();
 
-// temporary component
-const EmptyScreen = () => {
-  return <View />;
-};
-
 export default function MainRoute() {
+  const dispatch = useDispatch();
+
+  const currentUserObj = useSelector((state) => state.auth);
+
+  // upon login, update schedule for the user
+  useEffect(() => {
+    if (currentUserObj.currentUser != null) {
+      dispatch(getCurrentSchedule(currentUserObj.currentUser.uid));
+    }
+  }, [currentUserObj]);
+
   return (
     <Tab.Navigator
       barStyle={{ backgroundColor: Colors.primaryColor }}

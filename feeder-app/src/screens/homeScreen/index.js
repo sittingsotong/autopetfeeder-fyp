@@ -3,10 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
 import { feed } from "../../redux/actions/feed";
-import {
-  getCurrentSchedule,
-  updateSchedule,
-} from "../../redux/actions/schedule";
+import { updateSchedule } from "../../redux/actions/schedule";
 
 import Modal from "react-native-modal";
 import AmountSlider from "../../components/home/slider";
@@ -32,13 +29,6 @@ export default function HomeScreen() {
   const [error, setError] = useState(false);
 
   const dispatch = useDispatch();
-
-  // upon login, update schedule for the user
-  useEffect(() => {
-    if (currentUserObj.currentUser != null) {
-      dispatch(getCurrentSchedule(currentUserObj.currentUser.uid));
-    }
-  }, [currentUserObj]);
 
   // on every update of schedule, update firestore db
   useEffect(() => {
