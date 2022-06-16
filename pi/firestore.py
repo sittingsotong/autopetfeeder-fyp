@@ -71,26 +71,24 @@ class Firestore():
 
         today_doc = self.data_col.document(date_str)
 
-        try:
-            # read portions array from document
-            doc = today_doc.get()
-            portions = doc.to_dict()["portions"]
-            portions.append(portion)
+        data = {
+            "portion": portion,
+            "feedTime": now
+        }
 
+        try:
             today_doc.update({
-                    "times": firestore.ArrayUnion([now]), 
-                    "portions": portions,
+                    "feeding": firestore.ArrayUnion([data]),
                     "sumPortions": firestore.Increment(portion),
                     "updated": now
                 })
         except:
             # document does not already exist, create it
             today_doc.set({
-                "times": [now],
-                "portions": [portion],
+                "feeding": [data],
                 "sumPortions": portion,
                 "updated": now,
-            })
+            }, merge=True)
 
 
     def add_pellet_count_to_db(self, estimate):
@@ -107,11 +105,22 @@ class Firestore():
 
         today_doc = self.data_col.document(date_str)
 
-        # Update fields by appending to array
-        today_doc.update({
-                "remaining": firestore.ArrayUnion([estimate]),
+        data = {
+            "prediction": estimate,
+            "predTime": now
+        }
+
+        try:
+            # Update fields by appending to array
+            today_doc.update({
+                    "remaining": firestore.ArrayUnion([data]),
+                    "updated": now
+                })
+        except:
+            today_doc.set({
+                "remaining": [data],
                 "updated": now
-            })
+            }, merge=True)
 
 
 if __name__ == "__main__":
