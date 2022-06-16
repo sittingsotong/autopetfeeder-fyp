@@ -52,8 +52,8 @@ class Motor:
 
 
     def rotate(self, amt):
-        # 100g = 5 full rotations?
-        rotate_amt = int(amt/20 * self.step_count)
+        scaling_factor = self.step_count / 12
+        rotate_amt = int(amt * scaling_factor)
 
         try:
             for _ in range(rotate_amt):
@@ -78,8 +78,15 @@ class Motor:
 
 if __name__ == '__main__':
     motor = Motor()
-    motor.rotate(10)
 
-    time.sleep(10)
+    ## TESTING
+    amt = 25
+    motor.rotate(amt)
 
-    motor.rotate(20)
+    time.sleep(5)
+
+    motor.rotate(amt)
+
+    time.sleep(5)
+
+    motor.rotate(amt)
