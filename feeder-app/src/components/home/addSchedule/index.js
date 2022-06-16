@@ -12,6 +12,9 @@ import styles from "./styles";
 import Colors from "../../../colors";
 import CustomAlert from "../alert";
 
+// TESTING
+import { performance } from "universal-perf-hooks";
+
 export default function AddSchedule({ toggleModal }) {
   const [date, setDate] = useState(new Date());
   const [portion, setPortion] = useState(0);
@@ -25,6 +28,21 @@ export default function AddSchedule({ toggleModal }) {
 
   const toggleAlert = () => {
     setVisible(!visible);
+  };
+
+  const handleAddSchedule = () => {
+    toggleModal();
+
+    // sends SCHEDULE_ADD message to add schedule to state
+    dispatch({
+      type: SCHEDULE_ADD,
+      schedule: {
+        hour: date.getHours(),
+        minute: date.getMinutes(),
+        portion: portion,
+        days: weekdays,
+      },
+    });
   };
 
   return (
@@ -45,18 +63,15 @@ export default function AddSchedule({ toggleModal }) {
             if (portion == 0 || weekdays.length == 0) {
               toggleAlert();
             } else {
-              toggleModal();
+              // var startTime = performance.now();
 
-              // sends SCHEDULE_ADD message to add schedule to state
-              dispatch({
-                type: SCHEDULE_ADD,
-                schedule: {
-                  hour: date.getHours(),
-                  minute: date.getMinutes(),
-                  portion: portion,
-                  days: weekdays,
-                },
-              });
+              handleAddSchedule();
+
+              // var endTime = performance.now();
+
+              // console.log(
+              //   `Call to addSchedule took ${endTime - startTime} milliseconds`
+              // );
             }
           }}
         >

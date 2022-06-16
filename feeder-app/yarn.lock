@@ -2215,6 +2215,11 @@
   resolved "https://registry.npmjs.org/@types/node/-/node-17.0.23.tgz"
   integrity sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==
 
+"@types/node@^14.14.37":
+  version "14.18.21"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.21.tgz#0155ee46f6be28b2ff0342ca1a9b9fd4468bef41"
+  integrity sha512-x5W9s+8P4XteaxT/jKF0PSb7XEvo5VmqEWgsMlyeY4ZlLK8I6aH6g5TPPyDlLAep+GYf4kefb7HFyc7PAO3m+Q==
+
 "@types/prop-types@*":
   version "15.7.4"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.4.tgz"
@@ -10270,6 +10275,13 @@ unique-string@^1.0.0:
   integrity sha1-nhBXzKhRq7kzmPizOuGHuZyuwRo=
   dependencies:
     crypto-random-string "^1.0.0"
+
+universal-perf-hooks@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/universal-perf-hooks/-/universal-perf-hooks-1.0.1.tgz#be360fb2f96048ba71cc1afb3950f8bb70a05925"
+  integrity sha512-XPbS20JvSJBIY5XOVS0n+TOEVysUuuFhiWFVLAPh9iRSdH5R2rWOVWlXMwiaUD8TVtMiuVDedmfyIYQdu+gkrw==
+  dependencies:
+    "@types/node" "^14.14.37"
 
 universalify@^0.1.0:
   version "0.1.2"

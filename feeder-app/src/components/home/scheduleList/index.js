@@ -7,13 +7,16 @@ import { SCHEDULE_DELETE } from "../../../redux/constants";
 
 import styles from "./styles";
 
+// TESTING
+import { performance } from "universal-perf-hooks";
+
 export default function ScheduleList({ schedule }) {
   let keyExtractor = (item, index) => index.toString();
 
   // Backend handling functions
   const dispatch = useDispatch();
 
-  const handleDelete = (index) => {
+  const handleDeleteSchedule = (index) => {
     dispatch({
       type: SCHEDULE_DELETE,
       index: index,
@@ -61,7 +64,17 @@ export default function ScheduleList({ schedule }) {
       <TouchableOpacity
         style={styles.providerButton}
         onPress={() => {
-          handleDelete(index);
+          // var startTime = performance.now();
+
+          handleDeleteSchedule(index);
+
+          // var endTime = performance.now();
+
+          // console.log(
+          //   `Call to handleDeleteSchedule took ${
+          //     endTime - startTime
+          //   } milliseconds`
+          // );
         }}
       >
         <Text>Remove</Text>

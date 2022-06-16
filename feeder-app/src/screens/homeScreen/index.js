@@ -18,6 +18,9 @@ import TitleAndLine from "../../components/home/titleAndLine";
 import styles from "./styles";
 import Colors from "../../colors";
 
+// TESTING
+import { performance } from "universal-perf-hooks";
+
 export default function HomeScreen() {
   // get current logged in user object
   const currentUserObj = useSelector((state) => state.auth);
@@ -30,7 +33,7 @@ export default function HomeScreen() {
 
   const dispatch = useDispatch();
 
-  // upon login, update schdule for the user
+  // upon login, update schedule for the user
   useEffect(() => {
     if (currentUserObj.currentUser != null) {
       dispatch(getCurrentSchedule(currentUserObj.currentUser.uid));
@@ -44,7 +47,7 @@ export default function HomeScreen() {
         updateSchedule(currentUserObj.currentUser.uid, currSchedule.schedule)
       )
         .then(() => {
-          console.log("update schedule successful");
+          // console.log("update schedule successful");
         })
         .catch(() => {
           console.log("update schedule unsuccessful");
@@ -60,7 +63,7 @@ export default function HomeScreen() {
     } else {
       dispatch(feed(currentUserObj.currentUser.uid, portion))
         .then(() => {
-          console.log("feed successful");
+          // console.log("feed successful");
         })
         .catch(() => {
           console.log("feed unsuccessful");
@@ -88,7 +91,15 @@ export default function HomeScreen() {
         <TouchableOpacity
           style={styles.feedButton}
           onPress={() => {
+            // var startTime = performance.now();
+
             handleFeed();
+
+            // var endTime = performance.now();
+
+            // console.log(
+            //   `Call to handleFeed took ${endTime - startTime} milliseconds`
+            // );
           }}
         >
           <Text>Feed Now</Text>

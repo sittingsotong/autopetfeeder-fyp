@@ -6,6 +6,9 @@ import CustomAlert from "../../home/alert";
 
 import styles from "./styles";
 
+// TESTING
+import { performance } from "universal-perf-hooks";
+
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,7 +52,15 @@ export default function LoginForm() {
       <TouchableOpacity
         style={styles.submitButton}
         onPress={() => {
+          // var startTime = performance.now();
+
           handleLogin();
+
+          // var endTime = performance.now();
+
+          // console.log(
+          //   `Call to handleLogin took ${endTime - startTime} milliseconds`
+          // );
         }}
       >
         <Text style={styles.buttonText}>Sign In</Text>

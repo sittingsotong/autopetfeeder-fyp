@@ -5,11 +5,9 @@ const styles = StyleSheet.create({
   containerMain: {
     flex: 1,
     flexDirection: "row",
-    flexWrap: "wrap",
     margin: 20,
     padding: 20,
     width: "85%",
-    // height: "60%",
   },
   providerButton: {
     backgroundColor: Colors.tertiaryColor,
