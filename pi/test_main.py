@@ -86,15 +86,15 @@ def feed_caller():
                 # Add feeding data to data doc
                 db.add_to_data_col(portion)
 
-                # Set feed flag 
-                feed_flag.set()
-
                 end = time()
 
                 logging.info("time taken to execute 1 feed: " + str(end - start))
 
                 # Call motor API to run motor
                 motor.rotate(portion)
+
+                # Set feed flag 
+                feed_flag.set()
 
         except KeyboardInterrupt:
             motor.cleanup()
