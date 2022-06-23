@@ -71,3 +71,16 @@ export const register = (fullName, email, password) => () =>
         reject();
       });
   });
+
+export const logout = () => () =>
+  new Promise((resolve, reject) => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        resolve();
+      })
+      .catch(() => {
+        reject();
+      });
+  });

@@ -1,4 +1,3 @@
-import { Caption } from "react-native-paper";
 import { DB_ADD, DB_DELETE, DB_MODIFY } from "../constants";
 
 const initialState = {

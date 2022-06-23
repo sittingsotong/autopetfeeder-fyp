@@ -11,11 +11,10 @@ export const dataListener = (userUid) => (dispatch) => {
     .onSnapshot((snapshot) => {
       snapshot.docChanges().forEach((change) => {
         const data = convertTimestamps(change.doc.data());
-        // const date = data["updated"].toDate();
 
         var dateParts = change.doc.id.split("-");
 
-        // month is 0-based, that's why we need dataParts[1] - 1
+        // month is 0-based, that's why we need dateParts[1] - 1
         var dateObj = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
 
         if (change.type === "added") {

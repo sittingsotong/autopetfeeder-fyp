@@ -3,7 +3,6 @@ import Colors from "../../colors";
 
 const styles = StyleSheet.create({
   containerMain: {
-    // margin: 30,
     height: "90%",
     padding: 20,
   },
@@ -13,6 +12,9 @@ const styles = StyleSheet.create({
     padding: 50,
     color: "darkslategray",
     textAlign: "center",
+  },
+  containerBottom: {
+    alignItems: "center",
   },
   providerButton: {
     backgroundColor: Colors.primaryColor,
@@ -24,9 +26,6 @@ const styles = StyleSheet.create({
   },
   providerButtonText: {
     textAlign: "center",
-  },
-  containerBottom: {
-    alignItems: "center",
   },
   containerBottomText: {
     padding: 12,
