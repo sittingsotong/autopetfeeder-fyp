@@ -79,18 +79,22 @@ export default function OverviewGraph({ data }) {
           tickValues={genDates()}
         />
         <VictoryAxis dependentAxis tickCount={10} tickFormat={(y) => `${y}g`} />
-        <VictoryBar
-          padding={{ left: 20, right: 60 }}
-          style={{
-            data: { fill: Colors.highlightColor },
-          }}
-          data={data}
-          alignment="middle"
-          x="date"
-          y="sumPortions"
-          labels={({ datum }) => `${datum.sumPortions}g`}
-          labelComponent={<VictoryLabel />}
-        />
+        {data ? (
+          <VictoryBar
+            padding={{ left: 20, right: 60 }}
+            style={{
+              data: { fill: Colors.highlightColor },
+            }}
+            data={data}
+            alignment="middle"
+            x="date"
+            y="sumPortions"
+            labels={({ datum }) => `${datum.sumPortions}g`}
+            labelComponent={<VictoryLabel />}
+          />
+        ) : (
+          <></>
+        )}
       </VictoryChart>
     </View>
   );

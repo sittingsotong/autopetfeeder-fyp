@@ -1,11 +1,11 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
-import { DB_ADD, DB_DELETE, DB_MODIFY } from "../constants";
+import { ADD_UNSUB, DB_ADD, DB_DELETE, DB_MODIFY } from "../constants";
 import { convertTimestamps } from "convert-firebase-timestamp";
 
 export const dataListener = (userUid) => (dispatch) => {
-  firebase
+  const unsub = firebase
     .firestore()
     .collection(userUid)
     .onSnapshot((snapshot) => {
@@ -47,4 +47,9 @@ export const dataListener = (userUid) => (dispatch) => {
         }
       });
     });
+
+  dispatch({
+    type: ADD_UNSUB,
+    unsub: unsub,
+  });
 };

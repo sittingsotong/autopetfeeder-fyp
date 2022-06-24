@@ -62,11 +62,13 @@ export default function DetailGraph({ data }) {
   // Helper function for rendering x axes label
   const renderTimes = (day) => {
     // For rendering time in 24h format
-    return `${day.toLocaleTimeString([], {
-      hour12: false,
-      hour: "2-digit",
-      minute: "2-digit",
-    })}`;
+    if (day != null) {
+      return `${day.toLocaleTimeString([], {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+      })}`;
+    }
   };
 
   useEffect(() => {
@@ -135,34 +137,42 @@ export default function DetailGraph({ data }) {
           tickValues={genTimes()}
         />
         <VictoryAxis dependentAxis tickCount={10} tickFormat={(y) => `${y}g`} />
-        <VictoryBar
-          padding={{ left: 20, right: 60 }}
-          style={{
-            data: { fill: Colors.highlightColor },
-          }}
-          data={feedData}
-          alignment="middle"
-          x="feedTime"
-          y="portion"
-          labels={({ datum }) =>
-            `${datum.portion}g\n${renderTimes(datum.feedTime)}`
-          }
-          labelComponent={<VictoryLabel />}
-        />
-        <VictoryBar
-          padding={{ left: 20, right: 60 }}
-          style={{
-            data: { fill: Colors.tertiaryColor },
-          }}
-          data={predData}
-          alignment="middle"
-          x="predTime"
-          y="prediction"
-          labels={({ datum }) =>
-            `${datum.prediction}g\n${renderTimes(datum.predTime)}`
-          }
-          labelComponent={<VictoryLabel />}
-        />
+        {feedData ? (
+          <VictoryBar
+            padding={{ left: 20, right: 60 }}
+            style={{
+              data: { fill: Colors.highlightColor },
+            }}
+            data={feedData}
+            alignment="middle"
+            x="feedTime"
+            y="portion"
+            labels={({ datum }) =>
+              `${datum.portion}g\n${renderTimes(datum.feedTime)}`
+            }
+            labelComponent={<VictoryLabel />}
+          />
+        ) : (
+          <></>
+        )}
+        {predData ? (
+          <VictoryBar
+            padding={{ left: 20, right: 60 }}
+            style={{
+              data: { fill: Colors.tertiaryColor },
+            }}
+            data={predData}
+            alignment="middle"
+            x="predTime"
+            y="prediction"
+            labels={({ datum }) =>
+              `${datum.prediction}g\n${renderTimes(datum.predTime)}`
+            }
+            labelComponent={<VictoryLabel />}
+          />
+        ) : (
+          <></>
+        )}
       </VictoryChart>
     </View>
   );

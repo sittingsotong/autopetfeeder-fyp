@@ -1,7 +1,14 @@
-import { DB_ADD, DB_DELETE, DB_MODIFY } from "../constants";
+import {
+  ADD_UNSUB,
+  DB_ADD,
+  DB_DELETE,
+  DB_MODIFY,
+  REMOVE_UNSUB,
+} from "../constants";
 
 const initialState = {
   data: [],
+  unsub: null,
 };
 
 /* 
@@ -61,6 +68,12 @@ export const trend = (state = initialState, action) => {
       return {
         ...state,
         data: state.data.filter((val) => val.id !== action.id),
+      };
+
+    case ADD_UNSUB:
+      return {
+        ...state,
+        unsub: action.unsub,
       };
 
     default:
