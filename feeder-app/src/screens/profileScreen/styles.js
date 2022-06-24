@@ -10,6 +10,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexGrow: 1,
   },
+  profileGrid: {
+    marginTop: 10,
+    padding: 10,
+  },
+  titleText: {
+    fontSize: 20,
+  },
   containerBottom: {
     marginBottom: 20,
   },

@@ -9,6 +9,7 @@ import styles from "./styles";
 
 export default function ProfileScreen() {
   const unsub = useSelector((state) => state.trend.unsub);
+  const currentUserObj = useSelector((state) => state.auth.currentUser);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -28,6 +29,12 @@ export default function ProfileScreen() {
     <View style={styles.containerMain}>
       <View style={styles.containerTop}>
         <TitleAndLine title={"Profile"} />
+        <View style={styles.profileGrid}>
+          <Text style={styles.titleText}>
+            Username: {currentUserObj.fullName}
+          </Text>
+        </View>
+        <Text style={styles.titleText}>Email: {currentUserObj.email}</Text>
       </View>
       <View style={styles.containerBottom}>
         <TouchableOpacity
