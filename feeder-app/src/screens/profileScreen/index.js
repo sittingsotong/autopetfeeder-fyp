@@ -13,7 +13,9 @@ export default function ProfileScreen() {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    unsub();
+    if (unsub) {
+      unsub();
+    }
     dispatch(logout())
       .then(() => {
         console.log("logout successful");
@@ -31,10 +33,12 @@ export default function ProfileScreen() {
         <TitleAndLine title={"Profile"} />
         <View style={styles.profileGrid}>
           <Text style={styles.titleText}>
-            Username: {currentUserObj.fullName}
+            Username: {currentUserObj ? currentUserObj.fullName : ""}
           </Text>
         </View>
-        <Text style={styles.titleText}>Email: {currentUserObj.email}</Text>
+        <Text style={styles.titleText}>
+          Email: {currentUserObj ? currentUserObj.email : ""}
+        </Text>
       </View>
       <View style={styles.containerBottom}>
         <TouchableOpacity
