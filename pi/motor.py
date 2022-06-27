@@ -52,7 +52,7 @@ class Motor:
 
 
     def rotate(self, amt):
-        scaling_factor = self.step_count / 15
+        scaling_factor = self.step_count / 14
         rotate_amt = int(amt * scaling_factor)
 
         try:
@@ -83,10 +83,10 @@ if __name__ == '__main__':
     amt = 30
     motor.rotate(amt)
 
-    # time.sleep(5)
+    time.sleep(5)
 
-    # motor.rotate(amt)
+    motor.rotate(amt)
 
-    # time.sleep(5)
+    time.sleep(5)
 
     # motor.rotate(amt)

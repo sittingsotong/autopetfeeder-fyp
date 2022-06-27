@@ -15,10 +15,11 @@ class CameraServo:
 
         ## Calibrated pwm for different angles
         self.forward = 4
-        self.down = 6.8
+        self.down = 6.6
 
         self.pwm.start(self.forward) # start PWM by rotating to looking forward
-        time.sleep(5)
+        time.sleep(0.5)
+        self.pwm.ChangeDutyCycle(0)
 
 
     def cleanup(self):
@@ -28,19 +29,24 @@ class CameraServo:
 
     def look_forward(self):
         self.pwm.ChangeDutyCycle(self.forward)
-        time.sleep(5)
+        time.sleep(0.5)
+        self.pwm.ChangeDutyCycle(0)
+
 
     def look_down(self):
         self.pwm.ChangeDutyCycle(self.down)
-        time.sleep(5)
+        time.sleep(0.5)
+        self.pwm.ChangeDutyCycle(0)
 
 if __name__ == "__main__":
     servo = CameraServo()
     print("forward")
     servo.look_forward()
+    time.sleep(5)
     # servo.cleanup()
 
     print("down")
     servo.look_down()
+    time.sleep(5)
 
     servo.cleanup()
