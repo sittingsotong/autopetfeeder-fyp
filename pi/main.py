@@ -1,5 +1,6 @@
 import datetime
 import logging
+import pytz
 import threading
 from time import sleep
 
@@ -108,7 +109,9 @@ def check_schedule():
     Based on the current time and day of week, 
     check if we need to feed now 
     """
-    now = datetime.datetime.now()
+
+    tz = pytz.timezone('Europe/London')
+    now = datetime.datetime.now(tz)
 
     # for each schedule stored, check if matches and feed
     for s in schedule:
@@ -132,7 +135,7 @@ def schedule_caller():
     """
     while True:
         # if current time is not a 5 minute interval, sleep until 5 minute interval reached
-        while not datetime.datetime.now().minute % 5 == 0:
+        while not datetime.datetime.utcnow().minute % 5 == 0:
             sleep(1)
 
         # check schedule on every 5min interval
@@ -158,12 +161,16 @@ def detector_caller():
             # take picture
             img_path = cam.capture_food()
 
+            # wait for the camera to move
+            sleep(1)
+
             # run the model
             prediction = detector.predict(img_path)
 
             prediction = round(prediction[0][0] * 100, 2)
 
             logging.info(prediction)
+
             db.add_pellet_count_to_db(prediction)
 
 
@@ -179,3 +186,19 @@ detector_thread.start()
 # Main loop to run while threads are daemonised
 while True:
     pass
+    # try:
+    #     while not feed_amt.empty():
+    #         portion = feed_amt.get()
+
+    #         # Add feeding data to data doc
+    #         db.add_to_data_col(portion)
+
+    #         # Call motor API to run motor
+    #         motor.rotate(portion)
+
+    #         # Set feed flag 
+    #         feed_flag.set()
+
+    # except KeyboardInterrupt:
+    #     motor.cleanup()
+    #     exit(1)
