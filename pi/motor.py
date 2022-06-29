@@ -80,7 +80,7 @@ if __name__ == '__main__':
     motor = Motor()
 
     ## TESTING
-    amt = 30
+    amt = 10
     motor.rotate(amt)
 
     time.sleep(5)
