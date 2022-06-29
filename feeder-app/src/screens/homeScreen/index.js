@@ -107,6 +107,7 @@ export default function HomeScreen() {
         coverScreen={true}
         backdropOpacity={0.95}
         useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
       >
         <View style={styles.modalContainer}>
           <AddSchedule toggleModal={toggleModal} />

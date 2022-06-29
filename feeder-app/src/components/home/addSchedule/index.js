@@ -15,8 +15,14 @@ import CustomAlert from "../alert";
 // TESTING
 import { performance } from "universal-perf-hooks";
 
+function roundDate() {
+  var coeff = 1000 * 60 * 5;
+  var date = new Date(); //or use any other date
+  return new Date(Math.round(date.getTime() / coeff) * coeff);
+}
+
 export default function AddSchedule({ toggleModal }) {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(roundDate());
   const [portion, setPortion] = useState(0);
   const [weekdays, setWeekdays] = useState([]);
   // 1 = SUN, 2 = MON, 3 = TUE ...
@@ -31,8 +37,6 @@ export default function AddSchedule({ toggleModal }) {
   };
 
   const handleAddSchedule = () => {
-    toggleModal();
-
     // sends SCHEDULE_ADD message to add schedule to state
     dispatch({
       type: SCHEDULE_ADD,
@@ -66,6 +70,8 @@ export default function AddSchedule({ toggleModal }) {
               // var startTime = performance.now();
 
               handleAddSchedule();
+
+              toggleModal();
 
               // var endTime = performance.now();
 
